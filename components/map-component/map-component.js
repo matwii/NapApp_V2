@@ -13,7 +13,6 @@ class MapComponent extends React.Component {
     }
 
     render() {
-        console.log('region:' + JSON.stringify(this.props.region));
         return (
             <MapView
                 region={this.props.region}

@@ -54,6 +54,23 @@ export const fetchCarsData = () => (
         .catch(err => console.log(err))
 );
 
+export async function setCarBooking(bookedBit, car) {
+    const request = new Request(`http://${HOST}/car/${car.id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            booked: bookedBit,
+            latitude: car.coordinate.latitude,
+            longitude: car.coordinate.longitude,
+        }),
+    });
+    // handle response
+    const response = await fetch(request);
+    console.log(response);
+}
+
 export async function fetchBestCar(available: Array, pickup: Object) {
     let duration = Infinity;
     let bestCar = null;
@@ -73,4 +90,30 @@ export async function fetchBestCar(available: Array, pickup: Object) {
         }
     }));
     return [bestCar, directions, duration, bounds];
+}
+
+export async function addRide(car, places) {
+    const request = new Request(`http://${HOST}/ride`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            car_id: car.id,
+            user_id: 1,   // fix when handling login
+            start_latitude: places.startCoordinates.latitude,
+            start_longitude: places.startCoordinates.longitude,
+            start_time: (Date.now() / 1000) - places.startTime,
+            via_latitude: places.pickupCoordinates.latitude,
+            via_longitude: places.pickupCoordinates.longitude,
+            via_time: (Date.now() / 1000) - places.pickupTime,
+            end_latitude: places.destinationCoordinates.latitude,
+            end_longitude: places.destinationCoordinates.longitude,
+            end_time: Date.now() / 1000,
+        }),
+    });
+    // handle response
+    const response = await fetch(request);
+    console.log(response);
 }

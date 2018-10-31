@@ -7,6 +7,8 @@ import FakeMarkerContainer from './containers/fake-marker-container/fake-marker-
 import InputAddressContainer from './containers/input-address-container/input-address-container';
 import ButtonContainer from './containers/button-container/button-container';
 import InfoContainer from './containers/info-container/info-container';
+import RideInfoContainer from './containers/ride-info-container/ride-info-container';
+import BookCarContainer from './containers/book-car-container/book-car-container';
 
 const store = configureStore({});
 
@@ -29,6 +31,8 @@ export default class App extends React.Component {
                   <InfoContainer
                       type="Destination"
                   />
+                  <RideInfoContainer />
+                  <BookCarContainer />
               </View>
           </View>
         </Provider>
