@@ -53,9 +53,8 @@ const styles = StyleSheet.create({
         padding: 30,
     },
     bottomContainer: {
-        flex: 1,
-        justifyContent: 'flex-end',
-        alignItems: 'stretch',
+        position: 'absolute',
         padding: 30,
+        bottom: 0
     },
 });
