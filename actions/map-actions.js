@@ -72,7 +72,6 @@ export const fetchLocation = () => (
   async (dispatch: Function) => {
     dispatch(fetchLocationRequest);
       let { status } =await Permissions.askAsync(Permissions.LOCATION);
-      console.log(status);
       if (status === 'granted') {
           let position = await Location.getCurrentPositionAsync({});
           if (position) {

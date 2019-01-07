@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-start',
     alignItems: 'stretch',
   },
   topContainer: {
@@ -18,11 +18,9 @@ export default StyleSheet.create({
     backgroundColor: '#EEE',
   },
   okButton: {
-    alignItems: 'center',
     justifyContent: 'center',
     width: 45,
     height: 45,
-    backgroundColor: 'white',
   },
   longButton: {
     alignItems: 'center',
@@ -35,4 +33,22 @@ export default StyleSheet.create({
   buttonText: {
     fontSize: 16,
   },
+    inputContainer: {
+        backgroundColor: 'white',
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: 'black',
+        alignSelf: 'center',
+        width: "80%"
+    },
+    loginButtonStyle: {
+        borderColor: "black",
+        borderRadius: 20,
+        elevation: 3,
+    },
+    loginButtonContainerStyle: {
+        alignSelf: 'center',
+        width: '100%',
+        marginTop: 10
+    }
 });

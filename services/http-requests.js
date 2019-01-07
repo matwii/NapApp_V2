@@ -1,6 +1,6 @@
 import API_KEY from '../lib/config';
 import { getPoints } from '../actions/input-address-actions';
-const HOST = 'napapp-217609.appspot.com';
+const HOST = '192.168.0.33:8080';
 
 export const fetchCoordinatesData = (address: String) => (
     fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address.replace(' ', '+')}&key=${API_KEY}`)
@@ -29,7 +29,7 @@ export const fetchAddressData = (coordinates: Object) => (
 );
 
 export const fetchCarsData = () => (
-    fetch(`https://${HOST}/car`)
+    fetch(`http://${HOST}/car`)
         .then(res => res.json())
         .then((cars) => {
             console.log(cars);
@@ -55,7 +55,7 @@ export const fetchCarsData = () => (
 );
 
 export async function setCarBooking(bookedBit, car) {
-    const request = new Request(`https://${HOST}/car/${car.id}`, {
+    const request = new Request(`http://${HOST}/car/${car.id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -68,7 +68,6 @@ export async function setCarBooking(bookedBit, car) {
     });
     // handle response
     const response = await fetch(request);
-    console.log(response);
 }
 
 export async function fetchBestCar(available: Array, pickup: Object) {
@@ -93,7 +92,7 @@ export async function fetchBestCar(available: Array, pickup: Object) {
 }
 
 export async function addRide(car, places) {
-    const request = new Request(`https://${HOST}/ride`, {
+    const request = new Request(`http://${HOST}/ride`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',

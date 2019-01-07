@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, TextInput, TouchableHighlight, Text, Keyboard } from 'react-native';
+import { Input, Button } from 'react-native-elements';
 import PropTypes from 'prop-types';
 import styles from './styles';
 
@@ -36,29 +37,36 @@ const InputAddressComponent = ({
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>
-        <TextInput
+        <Input
           placeholder={placeholder}
-          style={styles.addressInput}
+          containerStyle={styles.inputContainer}
+          inputContainerStyle={{borderBottomColor: 'transparent'}}
           onSubmitEditing={event => getCoordinates(event.nativeEvent.text, type, pickupCoordinates, destinationCoordinates, destinationAddress, cars) &&
                           getCar(cars, pickupCoordinates, getNewCar)}
           onChangeText={text => setAddress(text)}
         />
-        <TouchableHighlight
-          style={styles.okButton}
+        <Button
+          containerStyle={styles.okButton}
+          title="OK"
+          titleStyle={{ color: 'white' }}
+          buttonStyle={{borderColor: "black",
+              elevation: 2}}
           onPress={() => getCoordinates(adr, type, pickupCoordinates, destinationCoordinates, destinationAddress, cars) &&
                   getCar(cars, pickupCoordinates, getNewCar) &&
                   Keyboard.dismiss()}
         >
-          <Text style={styles.buttonText}>OK</Text>
-        </TouchableHighlight>
+        </Button>
       </View>
-      <TouchableHighlight
-        style={styles.longButton}
+      <Button
+          buttonStyle={styles.loginButtonStyle}
+          containerStyle={styles.loginButtonContainerStyle}
+          title="Choose destination on map"
         onPress={() => chooseOnMap(type)}
       >
         <Text>Choose {type.toLowerCase()} on map</Text>
-      </TouchableHighlight>
+      </Button>
     </View>
+
   );
 };
 

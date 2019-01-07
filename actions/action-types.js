@@ -35,3 +35,9 @@ export const AT_PICKUP = 'AT_PICKUP';
 export const AFTER_PICKUP = 'AFTER_PICKUP';
 
 export const RIDE_ADDED = 'RIDE_ADDED';
+
+export const AUTH_REQUEST = 'AUTH_REQUEST';
+export const AUTH_ERROR = 'AUTH_ERROR';
+export const AUTH_SUCCESS = 'AUTH_SUCCESS';
+export const SIGN_OUT = 'SIGN_OUT';
+
