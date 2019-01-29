@@ -1,6 +1,7 @@
 import API_KEY from '../lib/config';
 import { getPoints } from '../actions/input-address-actions';
-const HOST = '192.168.0.33:8080';
+import {AsyncStorage} from "react-native";
+const HOST = '10.22.32.203:3000';
 
 export const fetchCoordinatesData = (address: String) => (
     fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address.replace(' ', '+')}&key=${API_KEY}`)
@@ -92,6 +93,8 @@ export async function fetchBestCar(available: Array, pickup: Object) {
 }
 
 export async function addRide(car, places) {
+    const retrievedItem  = await AsyncStorage.getItem('user');
+    const user = JSON.parse(retrievedItem);
     const request = new Request(`http://${HOST}/ride`, {
         method: 'POST',
         headers: {
@@ -100,7 +103,7 @@ export async function addRide(car, places) {
         },
         body: JSON.stringify({
             car_id: car.id,
-            user_id: 1,   // fix when handling login
+            user_id: user[0].user_id,   // fix when handling login
             start_latitude: places.startCoordinates.latitude,
             start_longitude: places.startCoordinates.longitude,
             start_time: (Date.now() / 1000) - places.startTime,

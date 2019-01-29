@@ -9,7 +9,7 @@ class ProfileComponent extends React.Component {
     }
 
     render() {
-        const {user} = this.props;
+        let {user} = this.props;
         let avatar;
         if (user.google_image) {
             avatar = (

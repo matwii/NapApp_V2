@@ -41,7 +41,7 @@ export const checkIfLoggedIn = () => (
             const retrievedItem  = await AsyncStorage.getItem('user');
             const user = JSON.parse(retrievedItem);
             if (retrievedItem) {
-                dispatch(fetchAuthSuccess(user, user.token));
+                dispatch(fetchAuthSuccess(user[0], user.token));
             }
         } catch (e) {
             console.log('an error occured');
@@ -78,14 +78,15 @@ export const googleAuth = () => (
                     mode: 'cors',
                     cache: 'default'
                 };
-                fetch('http://192.168.0.33:8080/auth/google', options).then(r => {
+                fetch('http://10.22.32.203:3000/auth/google', options).then(r => {
                     const token = r.headers.get('x-auth-token');
                     r.json().then(user => {
                         user.token = token;
+                        console.log('USER ' + user);
                         if (token) {
                             AsyncStorage.setItem('user', JSON.stringify(user))
                                 .then(() => {
-                                    dispatch(fetchAuthSuccess(user, token))
+                                    dispatch(fetchAuthSuccess(user[0], token))
                                 })
                                 .catch(() => {
                                     console.log('There was an error saving the product')
