@@ -1,4 +1,4 @@
-import Expo from "expo";
+import { Google } from "expo";
 import config from "../lib/oauthconfig";
 import {
     AUTH_ERROR,
@@ -64,7 +64,7 @@ export const googleAuth = () => (
     async (dispatch: Function) => {
         dispatch(fetchAuthRequest());
         try {
-            const result = await Expo.Google.logInAsync({
+            const result = await Google.logInAsync({
                 androidClientId: config.GOOGLE_CLIENT_ID_ANDROID,
                 iosClientId: config.GOOGLE_CLIENT_ID_IOS,
                 scopes: ['profile', 'email'],

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Provider} from 'react-redux';
 import {StyleSheet, Image, View, Text} from 'react-native';
-import {createBottomTabNavigator, createStackNavigator} from 'react-navigation';
+import {createBottomTabNavigator, createAppContainer, createStackNavigator} from 'react-navigation';
 import {FontAwesome} from '@expo/vector-icons';
 import configureStore from './store/configureStore';
 import MapContainer from './containers/map-container/map-container';
@@ -19,7 +19,7 @@ export default class App extends React.Component {
     render(){
         return (
             <Provider store={store}>
-                <Routes />
+                <AppNav />
             </Provider>
         )
     }
@@ -75,6 +75,8 @@ const Routes = createBottomTabNavigator({
 }, {
     lazy: false
 });
+
+const AppNav = createAppContainer(Routes);
 
 const styles = StyleSheet.create({
     container: {
