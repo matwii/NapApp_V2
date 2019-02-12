@@ -4,8 +4,6 @@ import { SocialIcon, Button, Input} from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Entypo } from '@expo/vector-icons';
 import styles from './styles';
-import { connect } from "react-redux";
-import {googleAuth, checkIfLoggedIn, signOut} from "../../actions/auth-actions";
 import ProfileComponent from './profile-component';
 
 class LoginComponent extends React.Component {
@@ -67,14 +65,6 @@ class LoginComponent extends React.Component {
         this.props.isAuthenticated ? this.props.signOut() : console.log('OnPress!');
     };
 
-    /**
-     * Authenticates the the users google account with Oauth.
-     * Sends a request to the server that checks with the google api if the user is valid.
-     * returns user data and token.
-     * @returns {Promise<*>}
-     */
-
-
     render(){
         let content = this.props.isAuthenticated ?
             (
@@ -117,7 +107,7 @@ class LoginComponent extends React.Component {
                                 color='white'
                             />
                         }
-                        loading={false}
+                        loading={this.props.isLoading}
                         loadingProps={{ size: "large", color: "rgba(111, 202, 186, 1)" }}
                         titleStyle={{ color: 'white' }}
                         buttonStyle={styles.loginButtonStyle}
@@ -145,20 +135,4 @@ class LoginComponent extends React.Component {
     }
 }
 
-const mapDispatchToProps = (dispatch: Function) => ({
-    googleAuth: () => dispatch(googleAuth()),
-    checkIfLoggedIn: () => dispatch(checkIfLoggedIn()),
-    signOut: () => dispatch(signOut())
-});
-
-function mapStateToProps( state: Object ) {
-    return {
-        isLoading: state.authentication.isLoading,
-        error: state.authentication.error,
-        isAuthenticated: state.authentication.isAuthenticated,
-        user: state.authentication.user,
-        token: state.authentication.token,
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginComponent);
+export default LoginComponent;

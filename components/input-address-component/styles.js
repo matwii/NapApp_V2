@@ -1,38 +1,38 @@
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'stretch',
-  },
-  topContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'stretch',
-  },
-  addressInput: {
-    fontSize: 16,
-    height: 45,
-    width: 250,
-    backgroundColor: '#EEE',
-  },
-  okButton: {
-    justifyContent: 'center',
-    width: 45,
-    height: 45,
-  },
-  longButton: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 300,
-    height: 45,
-    marginTop: 10,
-    backgroundColor: 'white',
-  },
-  buttonText: {
-    fontSize: 16,
-  },
+    container: {
+        flex: 1,
+        justifyContent: 'flex-start',
+        alignItems: 'stretch',
+    },
+    topContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'stretch',
+    },
+    addressInput: {
+        fontSize: 16,
+        height: 45,
+        width: 250,
+        backgroundColor: '#EEE',
+    },
+    okButton: {
+        justifyContent: 'center',
+        width: 45,
+        height: 45,
+    },
+    longButton: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 300,
+        height: 45,
+        marginTop: 10,
+        backgroundColor: 'white',
+    },
+    buttonText: {
+        fontSize: 16,
+    },
     inputContainer: {
         backgroundColor: 'white',
         borderRadius: 10,
@@ -43,8 +43,6 @@ export default StyleSheet.create({
     },
     loginButtonStyle: {
         borderColor: "black",
-        borderRadius: 20,
-        elevation: 3,
     },
     loginButtonContainerStyle: {
         alignSelf: 'center',
