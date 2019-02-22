@@ -30,7 +30,12 @@ const rideAdded = () => (
   }
 );
 
-
+/**
+ * Calls function in HTTP requests to store the ride in DB.
+ * @param car
+ * @param places
+ * @returns {Function}
+ */
 const addRideToDatabase = (car: Object, places: Object) => (
   (dispatch: Function) => {
     addRide(car, places)
@@ -38,6 +43,16 @@ const addRideToDatabase = (car: Object, places: Object) => (
   }
 );
 
+/**
+ * Function to simulate the car. gets directions from google, and for each coordinate it moves the car.
+ * This is only used for simulation and not to show a real car.
+ * @param directions
+ * @param car
+ * @param i
+ * @param type
+ * @param places
+ * @returns {Function}
+ */
 export function driveCar(directions: Array, car: Object, i: Number, type: String, places: Object) {
   return (dispatch: Function) => {
     if (directions.length === 0) {
@@ -63,7 +78,7 @@ export function driveCar(directions: Array, car: Object, i: Number, type: String
         regNr: car.regNr,
       };
       dispatch(moveCar(newCar));
-      dispatch(driveCar(dir, newCar, newi += 1, type, places));
+      dispatch(driveCar(dir, newCar, newi += 5, type, places));
     }, 200);
   };
 }

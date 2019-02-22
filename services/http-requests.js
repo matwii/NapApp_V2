@@ -1,7 +1,7 @@
 import API_KEY from '../lib/config';
 import { getPoints } from '../actions/input-address-actions';
 import {AsyncStorage} from "react-native";
-const HOST = '10.22.32.89:3000';
+const HOST = '10.22.32.33:3000';
 
 export const fetchCoordinatesData = (address: String) => (
     fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address.replace(' ', '+')}&key=${API_KEY}`)

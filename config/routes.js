@@ -1,6 +1,5 @@
 import {createAppContainer, createBottomTabNavigator, createStackNavigator} from "react-navigation";
 import {FontAwesome} from '@expo/vector-icons';
-import LoginComponent from "../components/login-component/login-component";
 import React from "react";
 import {Image, StyleSheet, View} from "react-native";
 import MapContainer from "../containers/map-container/map-container";

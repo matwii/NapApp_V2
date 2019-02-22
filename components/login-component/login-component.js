@@ -1,4 +1,4 @@
-import React from 'react';
+    import React from 'react';
 import { View, Text } from 'react-native';
 import { SocialIcon, Button, Input} from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome';
