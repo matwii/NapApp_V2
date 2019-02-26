@@ -1,7 +1,9 @@
 import API_KEY from '../lib/config';
 import { getPoints } from '../actions/input-address-actions';
 import {AsyncStorage} from "react-native";
-const HOST = '10.22.32.33:3000';
+import io from 'socket.io-client';
+const HOST = '10.22.33.219:3000';
+const SOCKET = io(`http://${HOST}`);
 
 export const fetchCoordinatesData = (address: String) => (
     fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address.replace(' ', '+')}&key=${API_KEY}`)
@@ -29,9 +31,34 @@ export const fetchAddressData = (coordinates: Object) => (
         .catch(err => err)
 );
 
-export const fetchCarsData = () => (
-    fetch(`http://${HOST}/car`)
-        .then(res => res.json())
+export const fetchCarsData = async () => {
+    try {
+        SOCKET.on('initial cars', (cars) => {
+            const availableCars = [];
+            for (let i = 0; i < cars.length; i += 1) {
+                const car = cars[i];
+                // legg til if-en i php?
+                if (car.booked === 0) {
+                    const availableCar = {
+                        id: car.car_id,
+                        coordinate: {
+                            latitude: parseFloat(car.latitude),
+                            longitude: parseFloat(car.longitude),
+                        },
+                        regNr: car.reg_number,
+                    };
+                    availableCars.push(availableCar);
+                }
+            }
+            console.log(availableCars)
+            return (availableCars);
+        });
+    } catch (e) {
+        console.error(e);
+    }
+};
+
+        /*.then(res => res.json())
         .then((cars) => {
             console.log(cars);
             const availableCars = [];
@@ -52,8 +79,7 @@ export const fetchCarsData = () => (
             }
             return availableCars;
         })
-        .catch(err => console.log(err))
-);
+        .catch(err => console.log(err))*/
 
 export async function setCarBooking(bookedBit, car) {
     const request = new Request(`http://${HOST}/car/${car.id}`, {

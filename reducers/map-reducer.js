@@ -11,7 +11,7 @@ const initialState = {
     latitudeDelta: 0.05,
     longitudeDelta: 0.05,
   },
-  isLoading: false,
+  isLoading: true,
   error: false,
 };
 

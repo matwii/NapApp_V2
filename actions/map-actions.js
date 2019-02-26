@@ -11,8 +11,7 @@ import {
 } from './action-types';
 import { fetchCarsData, fetchAddressData } from '../services/http-requests';
 import { Location, Permissions } from 'expo';
-
-
+const HOST = '10.22.33.219:3000';
 /* global navigator */
 
 export const setRegion = (region: Object) => (
@@ -130,11 +129,15 @@ const fetchCarsSuccess = (cars: Array) => (
   }
 );
 
-export const fetchCars = () => (
-  (dispatch: Function) => {
-    dispatch(fetchCarsRequest);
-    return fetchCarsData()
-      .then(cars => dispatch(fetchCarsSuccess(cars)))
-      .catch(() => dispatch(fetchCarsError()));
-  }
+export const fetchCars = (socket) => (
+    (dispatch: Function) => {
+        dispatch(fetchCarsRequest())
+        console.log('GETCARS');
+        socket.on('initial cars', (cars) => {
+            if (cars) {
+                dispatch(fetchCarsSuccess(cars));
+            }
+            dispatch(fetchCarsError())
+        })
+    }
 );

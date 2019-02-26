@@ -2,18 +2,24 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Image} from 'react-native';
 import {MapView} from 'expo';
-import { View } from 'react-native'
+import Spinner from '../../components/spinner/spinner';
 import CarListContainer from '../../containers/car-list-container/car-list-container';
 import DirectionsContainer from '../../containers/directions-container/directions-container';
 import styles from './styles';
 
 class MapComponent extends React.Component {
-    async componentWillMount() {
+    constructor(props) {
+        super(props);
         this.props.getLocation();
-        this.props.getCars();
+        this.props.getCars(this.props.socket);
     }
 
     render() {
+        if (this.props.isLoading){
+            return (
+                <Spinner />
+            )
+        }
         return (
             <MapView
                 region={this.props.region}

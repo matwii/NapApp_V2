@@ -4,7 +4,7 @@ import CarComponent from '../car-component/car-component';
 
 
 const CarListComponent = ({cars, bookedCar, carBooked}) => {
-    console.log(cars);
+    console.log('cars: ' + cars);
     if (carBooked) {
         return (
             <CarComponent
