@@ -10,7 +10,6 @@ import {
   MOVE_CAR,
   CAR_POSITION_SET,
 } from '../actions/action-types';
-import io from "socket.io-client";
 
 const initialState = {
   cars: [],
@@ -18,7 +17,6 @@ const initialState = {
   error: false,
   reservedCar: null,
   carBooked: false,
-  socket: io(`http://10.22.33.219:3000`)
 };
 
 const carListReducer = (state: Object = initialState, action: Object) => {

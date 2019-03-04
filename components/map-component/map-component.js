@@ -11,10 +11,11 @@ class MapComponent extends React.Component {
     constructor(props) {
         super(props);
         this.props.getLocation();
-        this.props.getCars(this.props.socket);
+        this.props.getCars();
     }
 
     render() {
+        console.log(this.props.isLoading);
         if (this.props.isLoading){
             return (
                 <Spinner />

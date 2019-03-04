@@ -13,7 +13,7 @@ const mapStateToProps = (state: Object) => ({
 const mapDispatchToProps = (dispatch: Function) => ({
     onRegionChange: region => dispatch(setRegion(region)),
     getLocation: () => dispatch(fetchLocation()),
-    getCars: (socket) => dispatch(fetchCars(socket)),
+    getCars: () => dispatch(fetchCars()),
 });
 
 export default connect(

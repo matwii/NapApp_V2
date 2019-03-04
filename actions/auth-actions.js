@@ -78,7 +78,7 @@ export const googleAuth = () => (
                     mode: 'cors',
                     cache: 'default'
                 };
-                fetch('http://10.22.33.219:3000/auth/google', options).then(r => {
+                fetch('http://10.22.32.55:3000/auth/google', options).then(r => {
                     const token = r.headers.get('x-auth-token');
                     r.json().then(user => {
                         user.token = token;

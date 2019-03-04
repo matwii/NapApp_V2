@@ -129,15 +129,30 @@ const fetchCarsSuccess = (cars: Array) => (
   }
 );
 
-export const fetchCars = (socket) => (
-    (dispatch: Function) => {
-        dispatch(fetchCarsRequest())
-        console.log('GETCARS');
-        socket.on('initial cars', (cars) => {
-            if (cars) {
-                dispatch(fetchCarsSuccess(cars));
+export const fetchCars = () => (
+    async (dispatch: Function) => {
+        dispatch(fetchCarsRequest());
+        dispatch({
+            event: 'initial cars',
+            handle: (cars) => {
+                const availableCars = [];
+                for (let i = 0; i < cars.length; i += 1) {
+                    const car = cars[i];
+                    // legg til if-en i php?
+                    if (car.booked === 0) {
+                        const availableCar = {
+                            id: car.car_id,
+                            coordinate: {
+                                latitude: parseFloat(car.latitude),
+                                longitude: parseFloat(car.longitude),
+                            },
+                            regNr: car.reg_number,
+                        };
+                        availableCars.push(availableCar);
+                    }
+                }
+                dispatch(fetchCarsSuccess(availableCars))
             }
-            dispatch(fetchCarsError())
         })
     }
 );
