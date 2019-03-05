@@ -2,8 +2,10 @@
 import { View, Text } from 'react-native';
 import { SocialIcon, Button, Input} from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import config from '../../lib/oauthconfig';
 import { Entypo } from '@expo/vector-icons';
 import styles from './styles';
+import LinkedInModal from 'react-native-linkedin'
 import ProfileComponent from './profile-component';
 
 class LoginComponent extends React.Component {
@@ -71,7 +73,7 @@ class LoginComponent extends React.Component {
                 <ProfileComponent user={this.props.user}/>
             ) :
             (
-                <View>
+                <View style={{alignItems: 'center', justifyContent: 'center'}}>
                     <Input
                         placeholder='E-Mail'
                         leftIcon={
@@ -99,7 +101,7 @@ class LoginComponent extends React.Component {
                         inputContainerStyle={{borderBottomColor: 'transparent'}}
                     />
                     <Button
-                        title="Log In"
+                        title="Sign In"
                         icon={
                             <Entypo
                                 name='login'
@@ -109,7 +111,7 @@ class LoginComponent extends React.Component {
                         }
                         loading={this.props.isLoading}
                         loadingProps={{ size: "large", color: "rgba(111, 202, 186, 1)" }}
-                        titleStyle={{ color: 'white' }}
+                        titleStyle={{ color: 'white', marginLeft: 5 }}
                         buttonStyle={styles.loginButtonStyle}
                         containerStyle={styles.loginButtonContainerStyle}
                     />
@@ -117,14 +119,29 @@ class LoginComponent extends React.Component {
                         title='Sign In With Google'
                         button
                         type='google-plus-official'
+                        style={styles.loginButtonContainerStyle}
                         onPress={() => this.props.googleAuth() && this.props.navigation.setParams({isAuthenticated: this.props.isAuthenticated})}
                     />
                     <SocialIcon
                         title='Sign In With LinkedIn'
                         button
                         type='linkedin'
-                        onPress={() => console.log('onPress LinkedIn')}
+                        onPress={() => this.modal.open()}
+                        style={styles.loginButtonContainerStyle}
                     />
+                    <View style={styles.linkedInContainer}>
+                        <LinkedInModal
+                            ref={ref => {
+                                this.modal = ref
+                            }}
+                            clientID={config.LINKEDIN_CLIENT_ID}
+                            clientSecret={config.LINKEDIN_CLIENT_SECRET}
+                            redirectUri={`http://localhost:3000/auth/linkedin/callback`}
+                            onSuccess={data => this.props.linkedInAuth(data)}
+                            permissions={['r_basicprofile', 'r_emailaddress']}
+                            linkText={null}
+                        />
+                    </View>
                 </View>
         );
         return (

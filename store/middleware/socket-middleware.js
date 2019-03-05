@@ -8,7 +8,7 @@ import {HOST} from "../../lib/config";
  * @returns {function({dispatch?: *}): function(*): Function}
  */
 export default function socketMiddleware() {
-    const socket = io(`http://${HOST}`);
+    const socket = io(`http://${HOST}`, { forceNew: true });
 
     return ({ dispatch }) => next => (action) => {
         //Skips the middleware if the action is a function

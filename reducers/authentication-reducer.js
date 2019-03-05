@@ -26,6 +26,7 @@ const authReducer = (state: Object = initialState, action: Object) => {
         case AUTH_ERROR: {
             return {
                 ...state,
+                isLoading: false,
                 error: true,
             };
         }

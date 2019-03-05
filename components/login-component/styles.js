@@ -7,7 +7,8 @@ export default StyleSheet.create({
         borderWidth: 1,
         borderColor: 'black',
         alignSelf: 'center',
-        marginBottom: 10
+        marginBottom: 10,
+        width: '80%'
     },
     mainContainerStyle: {
         flex: 1,
@@ -15,13 +16,16 @@ export default StyleSheet.create({
         justifyContent: 'center'
     },
     loginButtonStyle: {
-        borderColor: "black",
-        borderRadius: 20,
-        elevation: 3,
+        borderRadius:25,
+        elevation: 2,
+        shadowColor: 'rgba(0,0,0, .4)',
+        shadowOffset: { height: 1, width: 1 },
+        shadowOpacity: 1,
+        shadowRadius: 1,
     },
     loginButtonContainerStyle: {
         alignSelf: 'center',
-        width: '90%',
+        width: '60%',
         marginBottom: 20
     },
     profileTopContainerStyle: {
@@ -29,5 +33,9 @@ export default StyleSheet.create({
         backgroundColor: '#1E90FF',
         justifyContent: 'center',
         alignItems: 'center',
-    }
+    },
+    linkedInContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 });

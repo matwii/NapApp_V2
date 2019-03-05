@@ -36,6 +36,11 @@ const signOutSuccess = () => (
     }
 )
 
+/**
+ * Checks if user object is stored in AsyncStorage. This determines the global state that determines if we show
+ * profile or not.
+ * @returns {Function}
+ */
 export const checkIfLoggedIn = () => (
     async (dispatch: Function) => {
         try {
@@ -50,6 +55,10 @@ export const checkIfLoggedIn = () => (
     }
 );
 
+/**
+ * Signs the user out by removing user object from AsyncStorage
+ * @returns {Function}
+ */
 export const signOut =() => (
     async (dispatch: Function) => {
         try {
@@ -61,6 +70,35 @@ export const signOut =() => (
     }
 );
 
+
+export const linkedInAuth = async (token) => {
+    const {access_token} = token; // from this lib
+    const baseApi = 'https://api.linkedin.com/v1/people/'
+    const params = [
+        'first-name',
+        'last-name',
+        'email-address'
+        // add more fields here
+    ]
+
+    const response = await fetch(
+        `${baseApi}~:(${params.join(',')})?format=json`,
+        {
+            method: 'GET',
+            headers: {
+                Authorization: 'Bearer ' + access_token
+            }
+        }
+    )
+    const payload = await response.json()
+    console.log(payload)
+};
+
+/**
+ * Gets access token from Google Oauth. If we get the token we send it to the server for validation.
+ * Server returns the user object and we store it in AsyncStorage
+ * @returns {Function}
+ */
 export const googleAuth = () => (
     async (dispatch: Function) => {
         dispatch(fetchAuthRequest());

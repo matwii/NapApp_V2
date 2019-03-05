@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import LoginComponent from '../../components/login-component/login-component';
-import {checkIfLoggedIn, googleAuth, signOut} from "../../actions/auth-actions";
+import {checkIfLoggedIn, googleAuth, signOut, linkedInAuth} from "../../actions/auth-actions";
 
 const mapStateToProps = (state: Object) => ({
     isLoading: state.authentication.isLoading,
@@ -12,6 +12,7 @@ const mapStateToProps = (state: Object) => ({
 
 const mapDispatchToProps = (dispatch: Function) => ({
     googleAuth: () => dispatch(googleAuth()),
+    linkedInAuth: (token) => dispatch(linkedInAuth(token)),
     checkIfLoggedIn: () => dispatch(checkIfLoggedIn()),
     signOut: () => dispatch(signOut())
 });

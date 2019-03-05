@@ -1,5 +1,7 @@
 {
   "GOOGLE_CLIENT_ID_ANDROID": "966327508293-ppct5q9upki1295k9u1scjca7s7e7jbs.apps.googleusercontent.com",
   "GOOGLE_CLIENT_ID_IOS": "966327508293-5feto0eqjq378dic145qh4590s4jjfr8.apps.googleusercontent.com",
-  "FACEBOOK_APP_ID": "921677564692691"
+  "FACEBOOK_APP_ID": "921677564692691",
+  "LINKEDIN_CLIENT_ID": "86i1qi9td310ew",
+  "LINKEDIN_CLIENT_SECRET": "ciGiFvCHJI7900WJ"
 }
