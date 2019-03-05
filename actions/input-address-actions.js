@@ -11,7 +11,7 @@ import {
 } from './action-types';
 import { fetchCoordinatesData, fetchAddressData } from '../services/http-requests';
 import { getBestCar } from './car-actions';
-import API_KEY from '../lib/config';
+import {API_KEY} from '../lib/config';
 
 /* global fetch: false */
 

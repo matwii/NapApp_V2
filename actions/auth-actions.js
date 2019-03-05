@@ -1,5 +1,6 @@
 import { Google } from "expo";
 import config from "../lib/oauthconfig";
+import {HOST} from "../lib/config";
 import {
     AUTH_ERROR,
     AUTH_REQUEST,
@@ -78,11 +79,10 @@ export const googleAuth = () => (
                     mode: 'cors',
                     cache: 'default'
                 };
-                fetch('http://10.22.32.55:3000/auth/google', options).then(r => {
+                fetch(`http://${HOST}/auth/google`, options).then(r => {
                     const token = r.headers.get('x-auth-token');
                     r.json().then(user => {
                         user.token = token;
-                        console.log('USER ' + JSON.stringify(user));
                         if (token) {
                             AsyncStorage.setItem('user', JSON.stringify(user))
                                 .then(() => {

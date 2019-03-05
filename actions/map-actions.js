@@ -11,7 +11,6 @@ import {
 } from './action-types';
 import { fetchCarsData, fetchAddressData } from '../services/http-requests';
 import { Location, Permissions } from 'expo';
-const HOST = '10.22.33.219:3000';
 /* global navigator */
 
 export const setRegion = (region: Object) => (

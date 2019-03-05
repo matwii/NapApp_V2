@@ -15,7 +15,6 @@ class MapComponent extends React.Component {
     }
 
     render() {
-        console.log(this.props.isLoading);
         if (this.props.isLoading){
             return (
                 <Spinner />

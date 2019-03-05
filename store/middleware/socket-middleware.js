@@ -1,4 +1,5 @@
 import io from 'socket.io-client';
+import {HOST} from "../../lib/config";
 
 /**
  * The middleware will check if the action has other specific attributes and handle that action differently than
@@ -7,7 +8,7 @@ import io from 'socket.io-client';
  * @returns {function({dispatch?: *}): function(*): Function}
  */
 export default function socketMiddleware() {
-    const socket = io(`http://10.22.32.55:3000`);
+    const socket = io(`http://${HOST}`);
 
     return ({ dispatch }) => next => (action) => {
         //Skips the middleware if the action is a function
