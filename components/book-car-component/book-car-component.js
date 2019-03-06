@@ -3,10 +3,8 @@ import { View, TouchableHighlight, Text } from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './styles';
 
-const BookCarComponent = ({
-  active, directions, car, cancelRide, bookRide, driveCar
-}) => {
-  if (!active) {
+const BookCarComponent = ({active, directions, car, cancelRide, bookRide, driveCar}) => {
+    if (!active) {
     return null;
   }
   return (

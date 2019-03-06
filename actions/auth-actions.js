@@ -71,28 +71,31 @@ export const signOut =() => (
 );
 
 
-export const linkedInAuth = async (token) => {
-    const {access_token} = token; // from this lib
-    const baseApi = 'https://api.linkedin.com/v1/people/'
-    const params = [
-        'first-name',
-        'last-name',
-        'email-address'
-        // add more fields here
-    ]
-
-    const response = await fetch(
-        `${baseApi}~:(${params.join(',')})?format=json`,
-        {
-            method: 'GET',
-            headers: {
-                Authorization: 'Bearer ' + access_token
-            }
+export const linkedInAuth = (token) => (
+    async (dispatch: Function) => {
+        const tokenBlob = new Blob([JSON.stringify({access_token: token.access_token}, null, 2)], {type: 'application/json'});
+        console.log(tokenBlob)
+        const options = {
+            method: 'POST',
+            body: tokenBlob,
+            mode: 'cors',
+            cache: 'default'
+        };
+        console.log(options);
+        const response = await fetch(`http://${HOST}/auth/linkedin`, options);
+        const resToken = await response.headers.get('x-auth-token');
+        const user = await response.json();
+        if (resToken) {
+            AsyncStorage.setItem('user', JSON.stringify(user))
+                .then(() => {
+                    dispatch(fetchAuthSuccess(user, resToken))
+                })
+                .catch(() => {
+                    console.log('There was an error saving the product')
+                })
         }
-    )
-    const payload = await response.json()
-    console.log(payload)
-};
+    }
+);
 
 /**
  * Gets access token from Google Oauth. If we get the token we send it to the server for validation.
