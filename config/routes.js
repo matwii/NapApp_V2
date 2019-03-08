@@ -1,7 +1,7 @@
 import {createAppContainer, createBottomTabNavigator, createStackNavigator} from "react-navigation";
 import {FontAwesome} from '@expo/vector-icons';
 import React from "react";
-import {Image, StyleSheet, View} from "react-native";
+import {Image, StyleSheet, View, Animated} from "react-native";
 import MapContainer from "../containers/map-container/map-container";
 import InputAddressContainer from "../containers/input-address-container/input-address-container";
 import FakeMarkerContainer from "../containers/fake-marker-container/fake-marker-container";
@@ -15,12 +15,10 @@ class mapScreen extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <Image source={require('../components/car-component/car.png')} style={{width: 0, height: 0}}/>
-                <Image source={require('../components/map-component/location.png')} style={{width: 0, height: 0}}/>
-                <MapContainer/>
-                <View style={styles.topContainer}>
+                <MapContainer test='test'/>
+                <Animated.View style={styles.topContainer}>
                     <InputAddressContainer/>
-                </View>
+                </Animated.View>
                 <FakeMarkerContainer/>
                 <View style={styles.bottomContainer}>
                     <ButtonContainer/>
@@ -70,7 +68,7 @@ const styles = StyleSheet.create({
     },
     topContainer: {
         flex: 1,
-        top: 0,
+        bottom: 0,
         position: 'absolute',
         padding: 30,
     },

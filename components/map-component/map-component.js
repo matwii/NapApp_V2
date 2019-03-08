@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Image} from 'react-native';
+import { Animated, Image } from 'react-native';
 import {MapView} from 'expo';
 import Spinner from '../../components/spinner/spinner';
 import CarListContainer from '../../containers/car-list-container/car-list-container';
@@ -10,14 +10,39 @@ import styles from './styles';
 class MapComponent extends React.Component {
     constructor(props) {
         super(props);
-        this.props.getLocation();
+        this.springValue = new Animated.Value(0.5);
+        this.props.getCurrentLocation();
         this.props.getCars();
     }
 
+    componentDidMount() {
+        this.animateLocation();
+    }
+
+
+    /**
+     * starts animation for current location. This is to indicate better where the user are.
+     */
+    animateLocation(){
+        Animated.loop(
+            Animated.sequence([
+                Animated.timing(this.springValue, {
+                    toValue: 1,
+                    duration: 1000,
+                    delay: 1000,
+                }),
+                Animated.timing(this.springValue, {
+                    toValue: 0.5,
+                    duration: 1000,
+                })
+            ]),
+        ).start()
+    }
+
     render() {
-        if (this.props.isLoading){
+        if (this.props.isLoading) {
             return (
-                <Spinner />
+                <Spinner/>
             )
         }
         return (
@@ -36,14 +61,11 @@ class MapComponent extends React.Component {
                     coordinate={this.props.pickup}
                     title="Pickup location"
                 >
-                    <Image
-                        style={{width: 7, height: 7}}
-                        source={require('./location.png')}
-                    />
+                    <Animated.Image style={{width: 30, height: 30, transform: [{scale: this.springValue }] }} source={require('./location.png')} />
                 </MapView.Marker>
                 }
-                <DirectionsContainer />
-                <CarListContainer />
+                <DirectionsContainer/>
+                <CarListContainer/>
             </MapView>
         );
     }
@@ -66,7 +88,7 @@ MapComponent.propTypes = {
         longitude: PropTypes.number,
     }),
     onRegionChange: PropTypes.func.isRequired,
-    getLocation: PropTypes.func.isRequired,
+    getCurrentLocation: PropTypes.func.isRequired,
     getCars: PropTypes.func.isRequired,
 };
 

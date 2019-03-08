@@ -1,21 +1,11 @@
 import React from 'react';
-import {View, TextInput, TouchableHighlight, Text, Keyboard} from 'react-native';
+import {View,  Text, Keyboard} from 'react-native';
 import {Input, Button} from 'react-native-elements';
 import PropTypes from 'prop-types';
 import styles from './styles';
 
-const InputAddressComponent = ({
-                                   active,
-                                   type,
-                                   pickupCoordinates,
-                                   destinationCoordinates,
-                                   destinationAddress,
-                                   cars,
-                                   mustGetNewCar,
-                                   getCoordinates,
-                                   chooseOnMap,
-                                   getCar,
-                               }) => {
+const InputAddressComponent = ({active, type, pickupCoordinates, destinationCoordinates, destinationAddress, cars,
+                                   mustGetNewCar, getCoordinates, chooseOnMap, getCar, address, isLoading}) => {
     if (!active) {
         return null;
     }
@@ -44,6 +34,8 @@ const InputAddressComponent = ({
                     onSubmitEditing={event => getCoordinates(event.nativeEvent.text, type, pickupCoordinates, destinationCoordinates, destinationAddress, cars) &&
                         getCar(cars, pickupCoordinates, getNewCar)}
                     onChangeText={text => setAddress(text)}
+                    value={isLoading ? 'Getting address...' : address}
+                    label='Travel from:'
                 />
                 <Button
                     containerStyle={styles.okButton}

@@ -9,7 +9,7 @@ const CarComponent = ({ coordinates, regNr }) => (
     coordinate={coordinates}
     title={regNr}
   >
-    <Image
+   <Image
       style={{ width: 20, height: 20 }}
       source={require('./car.png')}
     />

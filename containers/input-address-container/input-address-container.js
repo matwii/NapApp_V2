@@ -11,6 +11,8 @@ const mapStateToProps = (state: Object) => ({
   destinationAddress: state.directions.destinationAddress,
   cars: state.carList.cars,
   mustGetNewCar: state.directions.pickupChanged,
+  address: state.directions.pickupAddress,
+  isLoading: state.directions.isLoading
 });
 const mapDispatchToProps = (dispatch: Function) => ({
   getCoordinates:

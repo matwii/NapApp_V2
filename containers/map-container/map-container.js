@@ -1,18 +1,17 @@
 import { connect } from 'react-redux';
 import MapComponent from '../../components/map-component/map-component';
-import { setRegion, fetchLocation, fetchCars } from '../../actions/map-actions';
+import { fetchCurrentLocation, fetchCars, getLocation } from '../../actions/map-actions';
 
 const mapStateToProps = (state: Object) => ({
     region: state.map.region,
     destination: state.directions.destinationCoordinates,
     pickup: state.directions.pickupCoordinates,
-    isLoading: state.carList.isLoading,
-    socket: state.carList.socket
+    isLoading: state.map.isLoading,
 });
 
 const mapDispatchToProps = (dispatch: Function) => ({
-    onRegionChange: region => dispatch(setRegion(region)),
-    getLocation: () => dispatch(fetchLocation()),
+    onRegionChange: region => dispatch(getLocation(region)),
+    getCurrentLocation: () => dispatch(fetchCurrentLocation()),
     getCars: () => dispatch(fetchCars()),
 });
 

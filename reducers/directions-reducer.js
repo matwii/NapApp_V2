@@ -2,6 +2,7 @@ import {
   FETCH_DIRECTIONS_SUCCESS,
   FETCH_BEST_CAR_SUCCESS,
   FETCH_ADDRESS_SUCCESS,
+  FETCH_ADDRESS_REQUEST,
   FETCH_PICKUP_SUCCESS,
   CANCEL_RIDE,
   CAR_POSITION_SET,
@@ -26,6 +27,7 @@ const initialState = {
   destinationAddress: '',
   destinationBounds: null,
   startCoordinates: null,
+  isLoading: true
 };
 
 const directionsReducer = (state: Object = initialState, action: Object) => {
@@ -55,6 +57,12 @@ const directionsReducer = (state: Object = initialState, action: Object) => {
         pickupCoordinates: action.payload.coordinates,
         pickupAddress: action.payload.address,
         pickupChanged: true,
+        isLoading: false
+      };
+    case FETCH_ADDRESS_REQUEST:
+      return {
+        ...state,
+        isLoading: true
       };
     case FETCH_PICKUP_SUCCESS:
       return {
