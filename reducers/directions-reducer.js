@@ -8,6 +8,7 @@ import {
   CAR_POSITION_SET,
   AT_PICKUP,
   AFTER_PICKUP,
+  FETCH_CURRENT_ADDRESS_SUCCESS,
 } from '../actions/action-types';
 
 const initialState = {
@@ -17,6 +18,11 @@ const initialState = {
     latitude: 63,
     longitude: 10,
   },
+  currentLocationCoordinates: {
+    latitude: 63,
+    longitude: 10,
+  },
+  currentAddress: '',
   pickupAddress: '',
   pickupChanged: false,
   atPickup: false,
@@ -57,6 +63,13 @@ const directionsReducer = (state: Object = initialState, action: Object) => {
         pickupCoordinates: action.payload.coordinates,
         pickupAddress: action.payload.address,
         pickupChanged: true,
+        isLoading: false
+      };
+    case FETCH_CURRENT_ADDRESS_SUCCESS:
+      return {
+        ...state,
+        currentLocationCoordinates: action.payload.coordinates,
+        currentAddress: action.payload.address,
         isLoading: false
       };
     case FETCH_ADDRESS_REQUEST:

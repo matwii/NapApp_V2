@@ -8,6 +8,7 @@ import {
     FETCH_ADDRESS_REQUEST,
     FETCH_ADDRESS_SUCCESS,
     FETCH_ADDRESS_ERROR,
+    FETCH_CURRENT_ADDRESS_SUCCESS
 } from './action-types';
 import { fetchAddressData} from '../services/http-requests';
 import {Location, Permissions} from 'expo';
@@ -41,6 +42,13 @@ const fetchAddressSuccess = (coordinates: Object, address: String) => (
     }
 );
 
+const fetchCurrentAddressSuccess = (coordinates: Object, address: String) => (
+    {
+        type: FETCH_CURRENT_ADDRESS_SUCCESS,
+        payload: {coordinates, address},
+    }
+);
+
 const fetchAddressRequest = () => (
     {
         type: FETCH_ADDRESS_REQUEST
@@ -54,12 +62,18 @@ const fetchAddressError = () => (
     }
 );
 
-const fetchAddress = (coordinates: Object) => (
+const fetchAddress = (coordinates: Object, type: String) => (
     (dispatch: Function) => {
         dispatch(fetchAddressRequest());
         return fetchAddressData(coordinates)
             .then((address) => {
-                dispatch(fetchAddressSuccess(coordinates, address));
+                //Checks if this is current address of the user or if pickupaddress is changed
+                if (type === 'current'){
+                    dispatch(fetchCurrentAddressSuccess(coordinates, address));
+                    dispatch(fetchAddressSuccess(coordinates, address))
+                } else {
+                    dispatch(fetchAddressSuccess(coordinates, address))
+                }
             })
             .catch(() => dispatch(fetchAddressError()));
     }
@@ -73,7 +87,7 @@ export const getLocation = (region: Object) => (
             longitude: region.longitude
         };
         await dispatch(setCurrentRegion(region));
-        await dispatch(fetchAddress(coordinates));
+        await dispatch(fetchAddress(coordinates, 'pickup'));
     }
 );
 
@@ -108,7 +122,7 @@ export const fetchCurrentLocation = () => (
                     };
                 }
                 await dispatch(setCurrentRegion(region));
-                await dispatch(fetchAddress(coordinates));
+                await dispatch(fetchAddress(coordinates, 'current'));
             } else {
                 dispatch(fetchLocationError);
             }

@@ -56,10 +56,10 @@ class MapComponent extends React.Component {
                     coordinate={this.props.destination}
                 />
                 }
-                {this.props.pickup &&
+                {this.props.currentLocation &&
                 <MapView.Marker
-                    coordinate={this.props.pickup}
-                    title="Pickup location"
+                    coordinate={this.props.currentLocation}
+                    title="Current location"
                 >
                     <Animated.Image style={{width: 30, height: 30, transform: [{scale: this.springValue }] }} source={require('./location.png')} />
                 </MapView.Marker>
