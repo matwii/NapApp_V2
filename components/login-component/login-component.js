@@ -28,7 +28,6 @@ const TabSelector = ({selected}) => {
 
 class LoginComponent extends React.Component {
     state = {
-        token: this.props.token,
         email: '',
         password: '',
         fontLoaded: false,
@@ -343,6 +342,7 @@ class LoginComponent extends React.Component {
                                         onSuccess={data => this.props.linkedInAuth(data)}
                                         permissions={['r_basicprofile', 'r_emailaddress']}
                                         linkText={null}
+                                        onError={() => this.modal.close}
                                     />
                                 </View>
                             </View>
