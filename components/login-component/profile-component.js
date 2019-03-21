@@ -29,7 +29,7 @@ class ProfileComponent extends React.Component {
             )
         }
         return (
-            <View style={{flex: 1}}>
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                 <View style={styles.profileTopContainerStyle}>
                     {avatar}
                     <Text h3 style={{color: 'white'}}>{user.name}</Text>

@@ -39,14 +39,27 @@ export default StyleSheet.create({
         borderWidth: 1,
         borderColor: 'black',
         alignSelf: 'center',
-        width: "80%"
     },
     loginButtonStyle: {
         borderColor: "black",
+        borderWidth: 0.5,
     },
     loginButtonContainerStyle: {
         alignSelf: 'center',
         width: '100%',
         marginTop: 10
+    },
+    backButtonStyle: {
+        backgroundColor: 'white',
+        width: 40,
+        height: 40,
+        borderRadius: 20
+    },
+    backButtonContainerStyle: {
+        width: 40,
+        height: 40,
+        borderRadius: 20,
+        backgroundColor: 'white',
+        marginBottom: 10
     }
 });

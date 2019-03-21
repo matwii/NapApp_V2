@@ -1,7 +1,7 @@
-import {createAppContainer, createBottomTabNavigator, createStackNavigator} from "react-navigation";
+import { createBottomTabNavigator, createStackNavigator} from "react-navigation";
 import {FontAwesome} from '@expo/vector-icons';
 import React from "react";
-import {Image, StyleSheet, View, Animated} from "react-native";
+import {StyleSheet, View, Animated} from "react-native";
 import MapContainer from "../containers/map-container/map-container";
 import InputAddressContainer from "../containers/input-address-container/input-address-container";
 import FakeMarkerContainer from "../containers/fake-marker-container/fake-marker-container";
