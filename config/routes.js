@@ -5,31 +5,44 @@ import {StyleSheet, View, Animated} from "react-native";
 import MapContainer from "../containers/map-container/map-container";
 import InputAddressContainer from "../containers/input-address-container/input-address-container";
 import FakeMarkerContainer from "../containers/fake-marker-container/fake-marker-container";
-import ButtonContainer from "../containers/button-container/button-container";
+import CurrentLocationContainer from '../containers/current-location-container/current-location-container'
 import InfoContainer from "../containers/info-container/info-container";
 import RideInfoContainer from "../containers/ride-info-container/ride-info-container";
 import BookCarContainer from "../containers/book-car-container/book-car-container";
 import LoginContainer from '../containers/login-container/login-container'
+
+const list = [
+    {
+        type: 'Pickup'
+    },
+    {
+        type: 'Destination'
+    },
+]
 
 class mapScreen extends React.Component {
     render() {
         return (
             <View style={styles.container}>
                 <MapContainer test='test'/>
-                <Animated.View style={styles.topContainer}>
-                    <InputAddressContainer/>
-                </Animated.View>
+                <View style={styles.currentLocationContainer}>
+                    <CurrentLocationContainer />
+                </View>
                 <FakeMarkerContainer/>
                 <View style={styles.bottomContainer}>
-                    <ButtonContainer/>
-                    <InfoContainer
-                        type="Pickup"
-                    />
-                    <InfoContainer
-                        type="Destination"
-                    />
+                    {
+                        list.map((l, i) => (
+                            <InfoContainer
+                                key={i}
+                                type={l.type}
+                            />
+                        ))
+                    }
                     <RideInfoContainer/>
                     <BookCarContainer/>
+                </View>
+                <View style={styles.topContainer}>
+                    <InputAddressContainer/>
                 </View>
             </View>
         );
@@ -67,7 +80,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     topContainer: {
-        flex: 1,
         bottom: 0,
         position: 'absolute',
         padding: 30,
@@ -75,7 +87,14 @@ const styles = StyleSheet.create({
     bottomContainer: {
         position: 'absolute',
         padding: 30,
-        bottom: 0
+        bottom: 0,
+        backgroundColor: 'transparent'
     },
+    currentLocationContainer: {
+        top: 0,
+        position: 'absolute', // add if dont work with above
+        padding: 30,
+        alignSelf: 'flex-end'
+    }
 });
 

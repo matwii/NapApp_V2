@@ -1,13 +1,13 @@
 import Polyline from '@mapbox/polyline';
 import {
-  FETCH_DESTINATION_REQUEST,
-  FETCH_DIRECTIONS_SUCCESS,
-  FETCH_DESTINATION_ERROR,
-  CHOOSE_DESTINATION_ON_MAP,
-  FETCH_DIRECTIONS_REQUEST,
-  FETCH_PICKUP_REQUEST,
-  FETCH_PICKUP_SUCCESS,
-  FETCH_PICKUP_ERROR,
+    FETCH_DESTINATION_REQUEST,
+    FETCH_DIRECTIONS_SUCCESS,
+    FETCH_DESTINATION_ERROR,
+    CHOOSE_DESTINATION_ON_MAP,
+    FETCH_DIRECTIONS_REQUEST,
+    FETCH_PICKUP_REQUEST,
+    FETCH_PICKUP_SUCCESS,
+    FETCH_PICKUP_ERROR, FETCH_DESTINATION_SUCCESS,
 } from './action-types';
 import { fetchCoordinatesData, fetchAddressData } from '../services/http-requests';
 import { getBestCar } from './car-actions';
@@ -49,6 +49,7 @@ const fetchPickupSuccess = (coordinates: Object, address: String) => (
     payload: { coordinates, address },
   }
 );
+
 
 const fetchPickupError = () => (
   {
@@ -93,6 +94,7 @@ export function fetchDirections(startCoordinates: Object, endCoordinates: Object
     dispatch(fetchDirectionsRequest());
     const start = `${startCoordinates.latitude},${startCoordinates.longitude}`;
     const end = `${endCoordinates.latitude},${endCoordinates.longitude}`;
+    console.log(start, end)
     return fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${start}&destination=${end}&key=${API_KEY}`)
       .then(
         response => response.json(),
@@ -102,7 +104,6 @@ export function fetchDirections(startCoordinates: Object, endCoordinates: Object
         const dir = getPoints(myJson.routes[0]);
         const duration = myJson.routes[0].legs[0].duration.value;
         const bounds = myJson.routes[0].bounds;
-        console.log(bounds);
         dispatch(fetchDirectionsSuccess(endCoordinates, address, dir, duration, bounds));
       });
   };
@@ -121,16 +122,16 @@ export const fetchCoordinates = (
       dispatch(fetchPickupRequest());
       return fetchCoordinatesData(address)
         .then((pickup) => {
-          dispatch(getBestCar(cars, pickup[0], true));
-          dispatch(fetchPickupSuccess(pickup[0], pickup[1]));
-          dispatch(fetchDirections(pickup[0], destinationCoordinates, destinationAddress));
+          dispatch(getBestCar(cars, startCoordinates, true));
+          dispatch(fetchPickupSuccess(startCoordinates, address));
+          dispatch(fetchDirections(startCoordinates, destinationCoordinates, destinationAddress));
         })
         .catch(() => dispatch(fetchPickupError()));
     } else if (type === 'Destination') {
       dispatch(fetchDestinationRequest());
       return fetchCoordinatesData(address)
         .then((destination) => {
-          dispatch(fetchDirections(startCoordinates, destination[0], destination[1]));
+          dispatch(fetchDirections(startCoordinates, destinationCoordinates, destinationAddress));
         })
         .catch(() => fetchDestinationError());
     }

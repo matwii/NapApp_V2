@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Keyboard, Animated, Dimensions} from 'react-native';
+import {View, LayoutAnimation, TouchableHighlight} from 'react-native';
 import {Input, Button, Text} from 'react-native-elements';
 import PropTypes from 'prop-types';
 import styles from './styles';
@@ -11,25 +11,8 @@ class InputAddressComponent extends Component {
     state = {
         ...this.props,
         isModalVisible: false,
-
+        editPickup: false
     };
-    moveAnimation = new Animated.Value(0)
-
-    componentDidMount() {
-        this.keyboardDidShowListener = Keyboard.addListener(
-            'keyboardDidShow',
-            () => this.animate('up')
-        );
-        this.keyboardDidHideListener = Keyboard.addListener(
-            'keyboardDidHide',
-            () => this.animate('down')
-        );
-    }
-
-    componentWillUnmount() {
-        this.keyboardDidShowListener.remove();
-        this.keyboardDidHideListener.remove();
-    }
 
     componentDidUpdate(oldProps) {
         const newProps = this.props;
@@ -38,27 +21,14 @@ class InputAddressComponent extends Component {
         }
     }
 
-    _toggleModal = () =>
-        this.setState({isModalVisible: !this.state.isModalVisible});
-
-
-    animate = (direction) => {
-        const {height} = Dimensions.get('window')
-        if (direction === 'up') {
-            Animated.spring(this.moveAnimation, {
-                toValue: -(height / 4),
-            }).start();
-        } else {
-            Animated.spring(this.moveAnimation, {
-                toValue: 0,
-            }).start();
-        }
+    _toggleModal = (status) => {
+        this.setState({isModalVisible: !this.state.isModalVisible, editPickup: status});
     };
 
     render() {
         let {
             active, type, pickupCoordinates, destinationCoordinates, destinationAddress, cars,
-            mustGetNewCar, getCoordinates, chooseOnMap, getCar, address, isLoading
+            mustGetNewCar, getCoordinates, getCar, address, isLoading, isAuthenticated, editPickup, getPickupLocation
         } = this.state;
         if (!active) {
             return null
@@ -67,39 +37,38 @@ class InputAddressComponent extends Component {
         if (type === 'Pickup') {
             getNewCar = false;
         }
-
         return (
             <View style={styles.container}>
-                <Animated.View
-                    style={[styles.topContainer, {transform: [{translateY: this.moveAnimation}]}]}
-                >
+                <TouchableHighlight onPress={() => {
+                    this._toggleModal(true);
+                }}
+                                    style={styles.topContainer} >
+                    <View style={styles.topContainer} pointerEvents="none">
                     <Input
                         placeholder='Travel from:'
                         containerStyle={styles.inputContainer}
                         inputContainerStyle={{borderBottomColor: 'transparent'}}
-                        onSubmitEditing={async (event) => {
-                            getCoordinates(event.nativeEvent.text, type, pickupCoordinates, destinationCoordinates, destinationAddress, cars) &&
-                            getCar(cars, pickupCoordinates, getNewCar)
-                        }}
-                        onChangeText={address => this.setState({address})}
                         value={isLoading ? 'Getting address...' : address}
                         label='Travel from:'
+                        pointerEvents="none"
                     />
-                </Animated.View>
+                    </View>
+                </TouchableHighlight>
                 <Button
                     buttonStyle={styles.loginButtonStyle}
                     containerStyle={styles.loginButtonContainerStyle}
-                    title="Order Car"
-                    onPress={this._toggleModal}
+                    title={isAuthenticated ? "ORDER CAR" : 'SIGN IN TO BOOK A CAR'}
+                    onPress={() => this._toggleModal(false)}
                     raised
-                    titleStyle={{fontWeight: 'bold'}}
+                    titleStyle={styles.loginTitleStyle}
+                    disabled={!isAuthenticated}
+
                 >
-                    <Text>Choose {type.toLowerCase()} on map</Text>
                 </Button>
                 <Modal
                     isVisible={this.state.isModalVisible}
-                    onBackButtonPress={this._toggleModal}
-                    onSwipeComplete={this._toggleModal}
+                    onBackButtonPress={() => this._toggleModal(false)}
+                    onSwipeComplete={() => this._toggleModal(false)}
                     swipeDirection="left"
                 >
                     <View style={{flex: 1}}>
@@ -112,23 +81,28 @@ class InputAddressComponent extends Component {
                                         color="black"
                                     />
                                 }
-                                onPress={this._toggleModal}
+                                onPress={() => this._toggleModal(false)}
                                 buttonStyle={styles.backButtonStyle}
                                 containerStyle={styles.backButtonContainerStyle}
                             />
                             <Text h4 style={{color: 'white', alignSelf: 'center'}}>
-                                Where do you wanna travel?
+                                {`Where do you wanna travel${editPickup ? ' from' : ''}?`}
                             </Text>
                             <View/>
                         </View>
                         <PlacesSearchComponent
                             toggleModal={this._toggleModal}
                             type={type}
+                            address={address}
                             pickupCoordinates={pickupCoordinates}
                             destinationCoordinates={destinationCoordinates}
                             destinationAddress={destinationAddress}
                             cars={cars}
                             getNewCar={getNewCar}
+                            getCoordinates={getCoordinates}
+                            getCar={getCar}
+                            editPickup={editPickup}
+                            getPickupLocation={getPickupLocation}
                         />
                     </View>
                 </Modal>

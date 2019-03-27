@@ -82,6 +82,14 @@ const fetchAddress = (coordinates: Object, type: String) => (
 export const getLocation = (region: Object) => (
     async (dispatch: Function) => {
         dispatch(fetchAddressRequest());
+        if (!region.latitudeDelta){
+            region = {
+                latitude: region.latitude,
+                longitude: region.longitude,
+                latitudeDelta: 0.05,
+                longitudeDelta: 0.05,
+            }
+        }
         const coordinates = {
             latitude: region.latitude,
             longitude: region.longitude

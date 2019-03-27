@@ -10,7 +10,7 @@ function formatTime(seconds) {
   return formattedTime;
 }
 
-const mapStateToProps = (state: Object) => ({
+const mapStateToProps = (state: Object, ownProps: Object) => ({
   active: state.directions.destinationCoordinates !== null &&
     !state.inputAddress.active &&
     !state.inputAddress.chooseOnMap &&

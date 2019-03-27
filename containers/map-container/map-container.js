@@ -7,7 +7,8 @@ const mapStateToProps = (state: Object) => ({
     destination: state.directions.destinationCoordinates,
     pickup: state.directions.pickupCoordinates,
     isLoading: state.map.isLoading,
-    currentLocation: state.directions.currentLocationCoordinates
+    currentLocation: state.directions.currentLocationCoordinates,
+    active: state.inputAddress.active,
 });
 
 const mapDispatchToProps = (dispatch: Function) => ({

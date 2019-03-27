@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, TouchableHighlight, Text } from 'react-native';
+import {Button} from 'react-native-elements'
 import PropTypes from 'prop-types';
 import styles from './styles';
 
@@ -9,19 +10,23 @@ const BookCarComponent = ({active, directions, car, cancelRide, bookRide, driveC
   }
   return (
     <View style={styles.container}>
-      <TouchableHighlight
-        style={styles.button}
+      <Button
+        containerStyle={styles.buttonContainerStyle}
+        buttonStyle={styles.cancelButtonStyle}
+        titleStyle={styles.cancelButtonTitleStyle}
         onPress={() => cancelRide()}
+        title='CANCEL'
       >
-        <Text style={styles.buttonText}>Cancel</Text>
-      </TouchableHighlight>
-      <TouchableHighlight
-        style={styles.button}
+      </Button>
+      <Button
+        containerStyle={styles.buttonContainerStyle}
+        buttonStyle={styles.bookButtonStyle}
+        titleStyle={styles.bookButtonTitleStyle}
         onPress={() => bookRide() &&
                 driveCar(directions, car)}
+        title='BOOK CAR'
       >
-        <Text style={styles.buttonText}>Book car</Text>
-      </TouchableHighlight>
+      </Button>
     </View>
   );
 };

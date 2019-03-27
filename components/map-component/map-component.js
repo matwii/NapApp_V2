@@ -49,17 +49,27 @@ class MapComponent extends React.Component {
             <MapView
                 region={this.props.region}
                 style={styles.map}
-                onRegionChangeComplete={reg => this.props.onRegionChange(reg)}
+                onRegionChangeComplete={reg => this.props.active && this.props.onRegionChange(reg)}
             >
                 {this.props.destination &&
                 <MapView.Marker
                     coordinate={this.props.destination}
+                    tracksViewChanges={false}
+                    pinColor={'red'}
+                />
+                }
+                {this.props.pickup && !this.props.active &&
+                <MapView.Marker
+                    coordinate={this.props.pickup}
+                    tracksViewChanges={false}
+                    pinColor={'green'}
                 />
                 }
                 {this.props.currentLocation &&
                 <MapView.Marker
                     coordinate={this.props.currentLocation}
                     title="Current location"
+                    tracksViewChanges={false}
                 >
                     <Animated.Image style={{width: 30, height: 30, transform: [{scale: this.springValue }] }} source={require('./location.png')} />
                 </MapView.Marker>

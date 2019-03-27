@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, TouchableHighlight, Text, Image } from 'react-native';
+import { View, LayoutAnimation } from 'react-native';
+import {ListItem} from'react-native-elements';
 import PropTypes from 'prop-types';
 import styles from './styles';
 
 const InfoComponent = ({
-  active, type, destinationAddress, pickupAddress, destinationTime, pickupTime, changeAddress,
+  active, type, destinationAddress, pickupAddress, destinationTime, pickupTime, changeAddress, key
 }) => {
   if (!active) {
     return null;
@@ -15,30 +16,24 @@ const InfoComponent = ({
     address = pickupAddress;
     time = pickupTime;
   }
+  LayoutAnimation.easeInEaseOut();
   return (
-    <View style={styles.infoContainer}>
-      <Text
-        style={styles.infoText}
-        onPress={() => changeAddress(type)}
-      >
-        <Text style={styles.labelText}>
-          {type}:{' '}
-        </Text>
-        {address}{'\n'}
-        <Text style={styles.labelText}>
-          Estimated time of {type.toLowerCase()}: {time}
-        </Text>
-      </Text>
-
-      <TouchableHighlight
-        style={styles.button}
-        onPress={() => changeAddress(type)}
-      >
-        <Image
-          style={{ width: 30, height: 30 }}
-          source={require('./pencil.png')}
+    <View style={styles.list}>
+        <ListItem
+            key={key}
+            title={type}
+            leftIcon={{
+                name: 'circle',
+                type: 'font-awesome',
+                color: type==='Pickup' ? 'green' : 'red',
+                size: 14
+            }}
+            rightTitle={address}
+            rightSubtitle={'Estimated arrival: ' + time}
+            containerStyle={{borderRadius: 10}}
+            contentContainerStyle={{flex: 1}}
+            rightContentContainerStyle={{flex: 2}}
         />
-      </TouchableHighlight>
     </View>
   );
 };

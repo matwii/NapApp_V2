@@ -3,9 +3,10 @@ import {
   FETCH_LOCATION_REQUEST,
   SET_REGION,
 } from '../actions/action-types';
+import {MapView} from 'expo';
 
 const initialState = {
-  region: {
+  region:  {
     latitude: 63,
     longitude: 10,
     latitudeDelta: 0.05,

@@ -8,6 +8,7 @@ const CarComponent = ({ coordinates, regNr }) => (
   <MapView.Marker
     coordinate={coordinates}
     title={regNr}
+    tracksViewChanges={false}
   >
    <Image
       style={{ width: 20, height: 20 }}

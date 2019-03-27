@@ -26,9 +26,10 @@ export default StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         width: 300,
-        height: 45,
         marginTop: 10,
         backgroundColor: 'white',
+        borderRadius: 10,
+        height: 40,
     },
     buttonText: {
         fontSize: 16,
@@ -41,13 +42,20 @@ export default StyleSheet.create({
         alignSelf: 'center',
     },
     loginButtonStyle: {
-        borderColor: "black",
-        borderWidth: 0.5,
+        borderRadius: 10,
+        height: 40
+    },
+    loginTitleStyle: {
+        fontSize: 16,
+        color: 'white',
+        fontWeight: 'bold',
     },
     loginButtonContainerStyle: {
         alignSelf: 'center',
         width: '100%',
-        marginTop: 10
+        marginTop: 10,
+        borderRadius: 10,
+        backgroundColor: 'transparent'
     },
     backButtonStyle: {
         backgroundColor: 'white',
