@@ -23,12 +23,12 @@ export default StyleSheet.create({
         backgroundColor: '#F5F5F5'
     },
     bookButtonTitleStyle: {
-        fontSize: 16,
+        fontSize: 12,
         color: 'white',
         fontWeight: 'bold',
     },
     cancelButtonTitleStyle: {
-        fontSize: 16,
+        fontSize: 12,
         color: 'grey',
         fontWeight: 'bold',
     },

@@ -59,7 +59,6 @@ class InputAddressComponent extends Component {
                     containerStyle={styles.loginButtonContainerStyle}
                     title={isAuthenticated ? "ORDER CAR" : 'SIGN IN TO BOOK A CAR'}
                     onPress={() => this._toggleModal(false)}
-                    raised
                     titleStyle={styles.loginTitleStyle}
                     disabled={!isAuthenticated}
 

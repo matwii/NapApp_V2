@@ -46,7 +46,7 @@ export default StyleSheet.create({
         height: 40
     },
     loginTitleStyle: {
-        fontSize: 16,
+        fontSize: 12,
         color: 'white',
         fontWeight: 'bold',
     },
@@ -55,7 +55,11 @@ export default StyleSheet.create({
         width: '100%',
         marginTop: 10,
         borderRadius: 10,
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent',
+        shadowOffset:{  width: 1,  height: 1,  },
+        shadowColor: 'black',
+        shadowOpacity: 0.5,
+        elevation: 2,
     },
     backButtonStyle: {
         backgroundColor: 'white',
