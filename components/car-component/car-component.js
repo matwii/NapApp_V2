@@ -10,10 +10,6 @@ const CarComponent = ({ coordinates, regNr }) => (
     title={regNr}
     tracksViewChanges={false}
   >
-   <Image
-      style={{ width: 20, height: 20 }}
-      source={require('./car.png')}
-    />
   </MapView.Marker>
 );
 

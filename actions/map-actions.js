@@ -183,6 +183,7 @@ export const fetchCars = () => (
                         availableCars.push(availableCar);
                     }
                 }
+                console.log(availableCars);
                 dispatch(fetchCarsSuccess(availableCars))
             }
         })

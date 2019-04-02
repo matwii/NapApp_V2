@@ -82,7 +82,7 @@ export const linkedInAuth = (token) => (
             cache: 'default'
         };
         console.log(options);
-        const response = await fetch(`http://${HOST}/auth/linkedin`, options);
+        const response = await fetch(`${HOST}/auth/linkedin`, options);
         const resToken = await response.headers.get('x-auth-token');
         const user = await response.json();
         if (resToken) {
@@ -120,7 +120,7 @@ export const googleAuth = () => (
                     mode: 'cors',
                     cache: 'default'
                 };
-                fetch(`http://${HOST}/auth/google`, options).then(r => {
+                fetch(`${HOST}/auth/google`, options).then(r => {
                     const token = r.headers.get('x-auth-token');
                     r.json().then(user => {
                         user.token = token;
