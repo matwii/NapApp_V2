@@ -10,7 +10,7 @@ import {
     FETCH_ADDRESS_ERROR,
     FETCH_CURRENT_ADDRESS_SUCCESS
 } from './action-types';
-import { fetchAddressData} from '../services/http-requests';
+import {fetchAddressData} from '../services/http-requests';
 import {Location, Permissions} from 'expo';
 /* global navigator */
 
@@ -68,7 +68,7 @@ const fetchAddress = (coordinates: Object, type: String) => (
         return fetchAddressData(coordinates)
             .then((address) => {
                 //Checks if this is current address of the user or if pickupaddress is changed
-                if (type === 'current'){
+                if (type === 'current') {
                     dispatch(fetchCurrentAddressSuccess(coordinates, address));
                     dispatch(fetchAddressSuccess(coordinates, address))
                 } else {
@@ -82,7 +82,7 @@ const fetchAddress = (coordinates: Object, type: String) => (
 export const getLocation = (region: Object) => (
     async (dispatch: Function) => {
         dispatch(fetchAddressRequest());
-        if (!region.latitudeDelta){
+        if (!region.latitudeDelta) {
             region = {
                 latitude: region.latitude,
                 longitude: region.longitude,
@@ -162,9 +162,30 @@ const fetchCarsSuccess = (cars: Array) => (
 );
 
 export const fetchCars = () => (
-    async (dispatch: Function) => {
+    async (dispatch, getState) => {
+        const {socket} = getState().authentication;
         dispatch(fetchCarsRequest());
-        dispatch({
+        socket.on('initial cars', (cars) => {
+                const availableCars = [];
+                for (let i = 0; i < cars.length; i += 1) {
+                    const car = cars[i];
+                    // legg til if-en i php?
+                    if (car.booked === 0) {
+                        const availableCar = {
+                            id: car.car_id,
+                            coordinate: {
+                                latitude: parseFloat(car.latitude),
+                                longitude: parseFloat(car.longitude),
+                            },
+                            regNr: car.reg_number,
+                        };
+                        availableCars.push(availableCar);
+                    }
+                }
+            dispatch(fetchCarsSuccess(availableCars))
+            }
+        )
+        /*dispatch({
             event: 'initial cars',
             handle: (cars) => {
                 const availableCars = [];
@@ -183,9 +204,8 @@ export const fetchCars = () => (
                         availableCars.push(availableCar);
                     }
                 }
-                console.log(availableCars);
                 dispatch(fetchCarsSuccess(availableCars))
             }
-        })
+        })*/
     }
 );

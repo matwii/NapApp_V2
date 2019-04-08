@@ -94,7 +94,6 @@ export function fetchDirections(startCoordinates: Object, endCoordinates: Object
     dispatch(fetchDirectionsRequest());
     const start = `${startCoordinates.latitude},${startCoordinates.longitude}`;
     const end = `${endCoordinates.latitude},${endCoordinates.longitude}`;
-    console.log(start, end)
     return fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${start}&destination=${end}&key=${API_KEY}`)
       .then(
         response => response.json(),

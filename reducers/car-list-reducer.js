@@ -8,7 +8,7 @@ import {
   CANCEL_RIDE,
   BOOK_RIDE,
   MOVE_CAR,
-  CAR_POSITION_SET,
+  CAR_POSITION_SET, RIDE_ADDED,
 } from '../actions/action-types';
 
 const initialState = {
@@ -61,12 +61,17 @@ const carListReducer = (state: Object = initialState, action: Object) => {
         error: false,
       };
     }
-    case CANCEL_RIDE: {
+    /*case CANCEL_RIDE: {
       return {
         ...state,
         reservedCar: null,
       };
-    }
+    }*/
+    case RIDE_ADDED:
+      return {
+        ...state,
+        carBooked: true
+      };
     case BOOK_RIDE:
       return {
         ...state,

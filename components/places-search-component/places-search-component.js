@@ -23,7 +23,6 @@ const PlacesSearchComponent = ({toggleModal, address, type, pickupCoordinates, d
             returnKeyType={'search'}
             fetchDetails={true}
             onPress={async(data, details = null) => { // 'details' is provided when fetchDetails = true
-                console.log(data, details)
                 const coordinates = {
                     "latitude": details.geometry.location.lat,
                     "longitude": details.geometry.location.lng

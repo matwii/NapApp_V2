@@ -47,23 +47,17 @@ export const afterPickup = () => (
   }
 );
 
-
-// dette funker ikke
-// export const afterPickup = () => (
-//   (dispatch: Function) => {
-//     console.log('her');
-//     dispatch(moveFromPickup());
-//   }
-// );
-
-
 export const getBestCar = (available: Array, pickup: Object, mustGetNewCar: Boolean) => (
-  (dispatch: Function) => {
+  async (dispatch, getState)  => {
     if (mustGetNewCar) {
+        const {socket} = getState().authentication;
       dispatch(fetchBestCarRequest());
-      return fetchBestCar(available, pickup)
-        .then(car => dispatch(fetchBestCarSuccess(car[0], car[1], car[2], car[3])))
-        .catch(() => dispatch(fetchBestCarError()));
+      try {
+          const car = await fetchBestCar(available, pickup);
+          dispatch(fetchBestCarSuccess(car[0], car[1], car[2], car[3]))
+      } catch (e) {
+          dispatch(fetchBestCarError())
+      }
     }
     return null;
   }

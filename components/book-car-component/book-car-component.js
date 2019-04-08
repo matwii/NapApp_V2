@@ -4,7 +4,7 @@ import {Button} from 'react-native-elements'
 import PropTypes from 'prop-types';
 import styles from './styles';
 
-const BookCarComponent = ({active, directions, car, cancelRide, bookRide, driveCar}) => {
+const BookCarComponent = ({active, directions, car, cancelRide, bookRide, driveCar, places}) => {
     if (!active) {
     return null;
   }
@@ -14,7 +14,7 @@ const BookCarComponent = ({active, directions, car, cancelRide, bookRide, driveC
         containerStyle={styles.buttonContainerStyle}
         buttonStyle={styles.cancelButtonStyle}
         titleStyle={styles.cancelButtonTitleStyle}
-        onPress={() => cancelRide()}
+        onPress={() => cancelRide(car.id)}
         title='CANCEL'
       >
       </Button>
@@ -22,8 +22,7 @@ const BookCarComponent = ({active, directions, car, cancelRide, bookRide, driveC
         containerStyle={styles.buttonContainerStyle}
         buttonStyle={styles.bookButtonStyle}
         titleStyle={styles.bookButtonTitleStyle}
-        onPress={() => bookRide() &&
-                driveCar(directions, car)}
+        onPress={() => bookRide(car, places)}
         title='BOOK CAR'
       >
       </Button>

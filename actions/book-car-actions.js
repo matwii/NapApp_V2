@@ -1,33 +1,33 @@
-import { CANCEL_RIDE, BOOK_RIDE, MOVE_CAR, RIDE_ADDED } from './action-types';
-import { setCarPosition } from './car-actions';
-import { addRide } from '../services/http-requests';
+import {CANCEL_RIDE, BOOK_RIDE, MOVE_CAR, RIDE_ADDED} from './action-types';
+import {setCarPosition} from './car-actions';
+import {addRide, fetchBestCar} from '../services/http-requests';
 
 export const cancelRide = () => (
-  {
-    type: CANCEL_RIDE,
-    payload: {},
-  }
+    {
+        type: CANCEL_RIDE,
+        payload: {},
+    }
 );
 
 export const bookRide = () => (
-  {
-    type: BOOK_RIDE,
-    payload: {},
-  }
+    {
+        type: BOOK_RIDE,
+        payload: {},
+    }
 );
 
 const moveCar = (car: Object) => (
-  {
-    type: MOVE_CAR,
-    payload: { car },
-  }
+    {
+        type: MOVE_CAR,
+        payload: {car},
+    }
 );
 
 const rideAdded = () => (
-  {
-    type: RIDE_ADDED,
-    payload: {},
-  }
+    {
+        type: RIDE_ADDED,
+        payload: {},
+    }
 );
 
 /**
@@ -36,11 +36,14 @@ const rideAdded = () => (
  * @param places
  * @returns {Function}
  */
-const addRideToDatabase = (car: Object, places: Object) => (
-  (dispatch: Function) => {
-    addRide(car, places)
-      .then(() => dispatch(rideAdded()));
-  }
+export const addRideToDatabase = (car: Object, places: Object) => (
+    (dispatch) => {
+        addRide(car, places)
+            .then(() => dispatch(rideAdded()))
+        /*
+        addRide(car, places)
+            .then(() => dispatch(rideAdded()));*/
+    }
 );
 
 /**
@@ -54,31 +57,39 @@ const addRideToDatabase = (car: Object, places: Object) => (
  * @returns {Function}
  */
 export function driveCar(directions: Array, car: Object, i: Number, type: String, places: Object) {
-  return (dispatch: Function) => {
-    if (directions.length === 0) {
-      if (type === 'Destination') {
-        dispatch(addRideToDatabase(car, places));
-        dispatch(setCarPosition(car, 0));
-      } else {
-        dispatch(setCarPosition(car, 1));
-      }
-      return;
-    }
-    const dir = [...directions];
-    const next = dir.shift();
+    return (dispatch: Function) => {
+        if (directions.length === 0) {
+            if (type === 'Destination') {
+                dispatch(addRideToDatabase(car, places));
+                dispatch(setCarPosition(car, 0));
+            } else {
+                dispatch(setCarPosition(car, 1));
+            }
+            return;
+        }
+        const dir = [...directions];
+        const next = dir.shift();
 
-    let newi = i;
-    setTimeout(() => {
-      const newCar = {
-        id: car.id,
-        coordinate: {
-          latitude: next.latitude,
-          longitude: next.longitude,
-        },
-        regNr: car.regNr,
-      };
-      dispatch(moveCar(newCar));
-      dispatch(driveCar(dir, newCar, newi += 5, type, places));
-    }, 200);
-  };
+        let newi = i;
+        setTimeout(() => {
+            const newCar = {
+                id: car.id,
+                coordinate: {
+                    latitude: next.latitude,
+                    longitude: next.longitude,
+                },
+                regNr: car.regNr,
+            };
+            dispatch(moveCar(newCar));
+            dispatch(driveCar(dir, newCar, newi += 5, type, places));
+        }, 200);
+    };
 }
+
+export const cancelBooking = (carId) => (
+    async(dispatch, getState) => {
+        const {socket} = await getState().authentication;
+        await socket.emit('bookCar', carId, 0);
+        dispatch(cancelRide());
+    }
+);

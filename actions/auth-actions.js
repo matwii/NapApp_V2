@@ -74,14 +74,12 @@ export const signOut =() => (
 export const linkedInAuth = (token) => (
     async (dispatch: Function) => {
         const tokenBlob = new Blob([JSON.stringify({access_token: token.access_token}, null, 2)], {type: 'application/json'});
-        console.log(tokenBlob)
         const options = {
             method: 'POST',
             body: tokenBlob,
             mode: 'cors',
             cache: 'default'
         };
-        console.log(options);
         const response = await fetch(`${HOST}/auth/linkedin`, options);
         const resToken = await response.headers.get('x-auth-token');
         const user = await response.json();
