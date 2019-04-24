@@ -5,9 +5,11 @@ import {
     AUTH_ERROR,
     AUTH_REQUEST,
     AUTH_SUCCESS,
-    SIGN_OUT
+    SIGN_OUT,
+    SET_SOCKET
 } from './action-types';
 import {AsyncStorage} from 'react-native'
+import {getRides} from "../services/http-requests";
 
 const fetchAuthRequest = () => (
     {
@@ -36,6 +38,12 @@ const signOutSuccess = () => (
     }
 )
 
+export const setSocket = () => (
+    {
+        type: SET_SOCKET,
+    }
+);
+
 /**
  * Checks if user object is stored in AsyncStorage. This determines the global state that determines if we show
  * profile or not.
@@ -47,6 +55,7 @@ export const checkIfLoggedIn = () => (
             const retrievedItem  = await AsyncStorage.getItem('user');
             const user = JSON.parse(retrievedItem);
             if (retrievedItem) {
+                dispatch(getRides(user.token))
                 dispatch(fetchAuthSuccess(user, user.token));
             }
         } catch (e) {

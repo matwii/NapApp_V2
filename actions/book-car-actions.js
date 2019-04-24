@@ -31,18 +31,31 @@ const rideAdded = () => (
 );
 
 /**
- * Calls function in HTTP requests to store the ride in DB.
+ * uses the websocket connection to store the ride in DB.
  * @param car
  * @param places
  * @returns {Function}
  */
 export const addRideToDatabase = (car: Object, places: Object) => (
-    (dispatch) => {
-        addRide(car, places)
+    async (dispatch, getState) => {
+        const {socket, token} = await getState().authentication;
+        const req = {
+            car_id: car.id,
+            token: token,   // fix when handling login
+            start_latitude: places.startCoordinates.latitude,
+            start_longitude: places.startCoordinates.longitude,
+            start_time: (Date.now() / 1000) - places.startTime,
+            via_latitude: places.pickupCoordinates.latitude,
+            via_longitude: places.pickupCoordinates.longitude,
+            via_time: (Date.now() / 1000) - places.pickupTime,
+            end_latitude: places.destinationCoordinates.latitude,
+            end_longitude: places.destinationCoordinates.longitude,
+            end_time: Date.now() / 1000,
+        };
+        socket.emit('addRide', req)
+        /*addRide(car, places)
             .then(() => dispatch(rideAdded()))
-        /*
-        addRide(car, places)
-            .then(() => dispatch(rideAdded()));*/
+        */
     }
 );
 
@@ -88,7 +101,7 @@ export function driveCar(directions: Array, car: Object, i: Number, type: String
 
 export const cancelBooking = (carId) => (
     async(dispatch, getState) => {
-        const {socket} = await getState().authentication;
+        let {socket} = await getState().authentication;
         await socket.emit('bookCar', carId, 0);
         dispatch(cancelRide());
     }

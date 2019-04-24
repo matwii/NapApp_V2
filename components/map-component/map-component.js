@@ -47,6 +47,7 @@ class MapComponent extends React.Component {
         }
         return (
             <MapView
+                initialRegion={this.props.initialRegion}
                 region={this.props.region}
                 style={styles.map}
                 onRegionChangeComplete={reg => this.props.active && this.props.onRegionChange(reg)}
@@ -80,26 +81,5 @@ class MapComponent extends React.Component {
         );
     }
 }
-
-
-MapComponent.propTypes = {
-    region: PropTypes.shape({
-        latitude: PropTypes.number.isRequired,
-        longitude: PropTypes.number.isRequired,
-        latitudeDelta: PropTypes.number.isRequired,
-        longitudeDelta: PropTypes.number.isRequired,
-    }).isRequired,
-    destination: PropTypes.shape({
-        latitude: PropTypes.number,
-        longitude: PropTypes.number,
-    }),
-    pickup: PropTypes.shape({
-        latitude: PropTypes.number,
-        longitude: PropTypes.number,
-    }),
-    onRegionChange: PropTypes.func.isRequired,
-    getCurrentLocation: PropTypes.func.isRequired,
-    getCars: PropTypes.func.isRequired,
-};
 
 export default MapComponent;

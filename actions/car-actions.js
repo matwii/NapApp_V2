@@ -50,11 +50,10 @@ export const afterPickup = () => (
 export const getBestCar = (available: Array, pickup: Object, mustGetNewCar: Boolean) => (
   async (dispatch, getState)  => {
     if (mustGetNewCar) {
-        const {socket} = getState().authentication;
       dispatch(fetchBestCarRequest());
       try {
           const car = await fetchBestCar(available, pickup);
-          dispatch(fetchBestCarSuccess(car[0], car[1], car[2], car[3]))
+          await dispatch(fetchBestCarSuccess(car[0], car[1], car[2], car[3]))
       } catch (e) {
           dispatch(fetchBestCarError())
       }

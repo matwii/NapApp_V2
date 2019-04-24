@@ -2,7 +2,7 @@ import {connect} from 'react-redux';
 import InputAddressComponent from '../../components/input-address-component/input-address-component';
 import {fetchCoordinates, chooseDestinationOnMap} from '../../actions/input-address-actions';
 import {getBestCar} from '../../actions/car-actions';
-import {getLocation} from "../../actions/map-actions";
+import {changeRegion} from "../../actions/map-actions";
 
 const mapStateToProps = (state: Object) => ({
     active: state.inputAddress.active,
@@ -22,7 +22,7 @@ const mapDispatchToProps = (dispatch: Function) => ({
             dispatch(fetchCoordinates(address, type, pickupCoordinates, destinationCoordinates, destinationAddress, cars)),
     chooseOnMap: type => dispatch(chooseDestinationOnMap(type)),
     getCar: (cars, pickup, mustGetNewCar) => dispatch(getBestCar(cars, pickup, mustGetNewCar)),
-    getPickupLocation: region => dispatch(getLocation(region)),
+    getPickupLocation: region => dispatch(changeRegion(region)),
 });
 
 export default connect(

@@ -17,7 +17,7 @@ const initialState = {
     token: '',
     username: '',
     password: '',
-    socket: io(`${HOST}`, { forceNew: true })
+    socket: io(`${HOST}`)
 };
 
 const authReducer = (state: Object = initialState, action: Object) => {

@@ -1,45 +1,94 @@
-import React from 'react';
-import { View, ScrollView} from "react-native";
-import {Avatar, Text} from 'react-native-elements'
-import styles from './styles'
+import React, { Component } from 'react';
+import {
+    StyleSheet,
+    Text,
+    View,
+    Image,
+} from 'react-native';
+import {Avatar} from 'react-native-elements'
 
-class ProfileComponent extends React.Component {
-    constructor(props){
-        super(props)
-    }
+export default class UserProfileView extends Component {
 
     render() {
         let {user} = this.props;
-        let avatar;
-        if (user.google_image) {
-            avatar = (
-                <Avatar
-                    rounded
-                    size="large"
-                    source={{uri: user.google_image}}
-                />
-            )
-        } else {
-            avatar = (
-                <Avatar
-                    rounded
-                    size="large"
-                    title={user.name.split(" ").map((n)=>n[0]).join(".")}
-                />
-            )
-        }
+        console.log(user);
         return (
-            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                <View style={styles.profileTopContainerStyle}>
-                    {avatar}
-                    <Text h3 style={{color: 'white'}}>{user.name}</Text>
+            <View style={styles.container}>
+                <View style={styles.header}>
+                    <View style={styles.headerContent}>
+                        <Avatar
+                            rounded
+                            size="large"
+                            title={user.name.split(" ").map((n)=>n[0]).join(".")}
+                            avatarStyle={{backgroundColor: '#b5213c'}}
+                        />
+
+                        <Text style={styles.name}>{user.name}</Text>
+                        <Text style={styles.userInfo}>{user.email}</Text>
+                    </View>
                 </View>
-                <ScrollView style={{backgroundColor: 'white'}}>
-                    <Text>{user.name}</Text>
-                </ScrollView>
+
+                <View style={styles.body}>
+                    <Text>
+                        No rides for this user
+                    </Text>
+
+                </View>
             </View>
-        )
+        );
     }
 }
 
-export default ProfileComponent;
+const styles = StyleSheet.create({
+    header:{
+        backgroundColor: "#1faadb",
+    },
+    headerContent:{
+        padding:30,
+        alignItems: 'center',
+    },
+    avatar: {
+        width: 130,
+        height: 130,
+        borderRadius: 63,
+        borderWidth: 4,
+        borderColor: "white",
+        marginBottom:10,
+    },
+    name:{
+        fontSize:22,
+        color:"#000000",
+        fontWeight:'600',
+    },
+    userInfo:{
+        fontSize:16,
+        color:"white",
+        fontWeight:'600',
+    },
+    body:{
+        alignItems:'center',
+    },
+    item:{
+        flexDirection : 'row',
+    },
+    infoContent:{
+        flex:1,
+        alignItems:'flex-start',
+        paddingLeft:5
+    },
+    iconContent:{
+        flex:1,
+        alignItems:'flex-end',
+        paddingRight:5,
+    },
+    icon:{
+        width:30,
+        height:30,
+        marginTop:20,
+    },
+    info:{
+        fontSize:18,
+        marginTop:20,
+        color: "#FFFFFF",
+    }
+});

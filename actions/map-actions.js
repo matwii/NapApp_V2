@@ -8,16 +8,24 @@ import {
     FETCH_ADDRESS_REQUEST,
     FETCH_ADDRESS_SUCCESS,
     FETCH_ADDRESS_ERROR,
-    FETCH_CURRENT_ADDRESS_SUCCESS
+    FETCH_CURRENT_ADDRESS_SUCCESS,SET_INIT_REGION
+
 } from './action-types';
 import {fetchAddressData} from '../services/http-requests';
 import {Location, Permissions} from 'expo';
 /* global navigator */
 
-export const setCurrentRegion = (region: Object) => (
+export const setCurrentInitialRegion = (region: Object) => (
+    {
+        type: SET_INIT_REGION,
+        payload: {region},
+    }
+);
+
+export const setRegion = (region) => (
     {
         type: SET_REGION,
-        payload: {region},
+        payload: {region}
     }
 );
 
@@ -79,7 +87,7 @@ const fetchAddress = (coordinates: Object, type: String) => (
     }
 );
 
-export const getLocation = (region: Object) => (
+export const getInitialLocation = (region: Object) => (
     async (dispatch: Function) => {
         dispatch(fetchAddressRequest());
         if (!region.latitudeDelta) {
@@ -94,12 +102,32 @@ export const getLocation = (region: Object) => (
             latitude: region.latitude,
             longitude: region.longitude
         };
-        await dispatch(setCurrentRegion(region));
+        await dispatch(setCurrentInitialRegion(region));
         await dispatch(fetchAddress(coordinates, 'pickup'));
     }
 );
 
-export const fetchCurrentLocation = () => (
+export const changeRegion = (region) => (
+    async (dispatch) => {
+        dispatch(fetchAddressRequest());
+        if (!region.latitudeDelta) {
+            region = {
+                latitude: region.latitude,
+                longitude: region.longitude,
+                latitudeDelta: 0.05,
+                longitudeDelta: 0.05,
+            }
+        }
+        const coordinates = {
+            latitude: region.latitude,
+            longitude: region.longitude
+        };
+        await dispatch(setRegion(region));
+        await dispatch(fetchAddress(coordinates, 'pickup'));
+    }
+);
+
+export const fetchCurrentLocation = (onClick) => (
     async (dispatch: Function) => {
         dispatch(fetchLocationRequest);
         let {status} = await Permissions.askAsync(Permissions.LOCATION);
@@ -129,7 +157,11 @@ export const fetchCurrentLocation = () => (
                         longitudeDelta: 0.05,
                     };
                 }
-                await dispatch(setCurrentRegion(region));
+                if (onClick === true){
+                    await dispatch(setRegion(region))
+                } else {
+                    await dispatch(setCurrentInitialRegion(region))
+                }
                 await dispatch(fetchAddress(coordinates, 'current'));
             } else {
                 dispatch(fetchLocationError);
