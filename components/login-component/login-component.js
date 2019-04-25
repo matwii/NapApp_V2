@@ -160,7 +160,7 @@ class LoginComponent extends React.Component {
         const isSignUpPage = selectedCategory === 1;
         let content = this.props.isAuthenticated ?
             (
-                <ProfileComponent user={this.props.user}/>
+                <ProfileComponent user={this.props.user} rides={this.props.rides} fetchRides={this.props.fetchRides}/>
             ) :
             (
                 <View style={{flex: 1}}>

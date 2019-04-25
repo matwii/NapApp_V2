@@ -72,6 +72,12 @@ export async function fetchBestCar(available: Array, pickup: Object) {
  * @returns {Promise<void>}
  */
 export async function getRides(token) {
-    const rides = await axios.get(`${HOST}/ride`, {params: {token: token}});
-    console.log(rides);
+    try {
+        const rides = await axios.get(`${HOST}/ride`, {params: {token: token}});
+        if (rides) {
+            return rides.data;
+        }
+    } catch (e) {
+        console.log(e);
+    }
 }

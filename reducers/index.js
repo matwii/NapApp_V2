@@ -4,6 +4,7 @@ import carListReducer from './car-list-reducer';
 import directionsReducer from './directions-reducer';
 import inputAddressReducer from './input-address-reducer';
 import authReducer from './authentication-reducer'
+import ridesReducer from './rides-reducer'
 
 // Root Reducer
 const rootReducer = combineReducers({
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
     carList: carListReducer,
     directions: directionsReducer,
     authentication: authReducer,
+    rides: ridesReducer,
     inputAddress: inputAddressReducer,
 });
 

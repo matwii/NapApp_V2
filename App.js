@@ -4,9 +4,13 @@ import { createAppContainer } from 'react-navigation'
 import { UIManager} from 'react-native'
 import {FontAwesome} from '@expo/vector-icons';
 import configureStore from './store/configureStore';
+import moment from 'moment';
+import 'moment/locale/nb'
 
 import { Routes } from "./config/routes";
 import {Font} from "expo";
+
+moment.locale('nb');
 
 // Enable LayoutAnimation on Android
 UIManager.setLayoutAnimationEnabledExperimental &&

@@ -44,3 +44,5 @@ export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const SIGN_OUT = 'SIGN_OUT';
 export const SET_SOCKET = 'SET_SOCKET';
 
+export const FETCH_RIDES_SUCCESS = 'FETCH_RIDES_SUCCESS';
+

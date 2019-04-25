@@ -1,4 +1,4 @@
-import { Google } from "expo";
+import {Google} from "expo";
 import config from "../lib/oauthconfig";
 import {HOST} from "../lib/config";
 import {
@@ -6,10 +6,10 @@ import {
     AUTH_REQUEST,
     AUTH_SUCCESS,
     SIGN_OUT,
-    SET_SOCKET
+    SET_SOCKET, FETCH_RIDES_SUCCESS
 } from './action-types';
 import {AsyncStorage} from 'react-native'
-import {getRides} from "../services/http-requests";
+import {fetchRides} from "./rides-actions";
 
 const fetchAuthRequest = () => (
     {
@@ -36,12 +36,6 @@ const signOutSuccess = () => (
     {
         type: SIGN_OUT
     }
-)
-
-export const setSocket = () => (
-    {
-        type: SET_SOCKET,
-    }
 );
 
 /**
@@ -52,11 +46,11 @@ export const setSocket = () => (
 export const checkIfLoggedIn = () => (
     async (dispatch: Function) => {
         try {
-            const retrievedItem  = await AsyncStorage.getItem('user');
-            const user = JSON.parse(retrievedItem);
+            const retrievedItem = await AsyncStorage.getItem('user');
+            const user = await JSON.parse(retrievedItem);
             if (retrievedItem) {
-                dispatch(getRides(user.token))
-                dispatch(fetchAuthSuccess(user, user.token));
+                await dispatch(fetchAuthSuccess(user, user.token));
+                dispatch(fetchRides())
             }
         } catch (e) {
             console.log('an error occured');
@@ -68,7 +62,7 @@ export const checkIfLoggedIn = () => (
  * Signs the user out by removing user object from AsyncStorage
  * @returns {Function}
  */
-export const signOut =() => (
+export const signOut = () => (
     async (dispatch: Function) => {
         try {
             await AsyncStorage.removeItem('user');
@@ -94,8 +88,9 @@ export const linkedInAuth = (token) => (
         const user = await response.json();
         if (resToken) {
             AsyncStorage.setItem('user', JSON.stringify(user))
-                .then(() => {
-                    dispatch(fetchAuthSuccess(user, resToken))
+                .then(async () => {
+                    await dispatch(fetchAuthSuccess(user, resToken));
+                    dispatch(fetchRides());
                 })
                 .catch(() => {
                     console.log('There was an error saving the product')
@@ -133,8 +128,9 @@ export const googleAuth = () => (
                         user.token = token;
                         if (token) {
                             AsyncStorage.setItem('user', JSON.stringify(user))
-                                .then(() => {
-                                    dispatch(fetchAuthSuccess(user, token))
+                                .then(async() => {
+                                    await dispatch(fetchAuthSuccess(user, token))
+                                    dispatch(fetchRides());
                                 })
                                 .catch(() => {
                                     console.log('There was an error saving the product')

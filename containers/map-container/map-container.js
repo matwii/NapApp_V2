@@ -11,6 +11,7 @@ const mapStateToProps = (state: Object) => ({
     isLoadingDirections: state.directions.isLoading,
     currentLocation: state.directions.currentLocationCoordinates,
     active: state.inputAddress.active,
+    socket: state.authentication.socket
 });
 
 const mapDispatchToProps = (dispatch: Function) => ({

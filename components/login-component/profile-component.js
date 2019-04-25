@@ -3,15 +3,41 @@ import {
     StyleSheet,
     Text,
     View,
-    Image,
+    ScrollView,
+    RefreshControl
 } from 'react-native';
-import {Avatar} from 'react-native-elements'
+import moment from 'moment'
+import {Avatar, ListItem} from 'react-native-elements'
 
 export default class UserProfileView extends Component {
+    state = {
+        refreshing: false,
+    };
+
+    renderRidesList = () => {
+        const {rides} = this.props;
+        console.log('RIDES', rides)
+        if (rides.length > 0){
+            return this.props.rides.map((item, i) =>
+                <ListItem
+                    key={i}
+                    title={`Order#${item.ride_id}\n${item.brand} ${item.modell}\n${moment(item.booked_time).format('LLL')}`}
+                    rightTitle={`status: ${item.status_name}`}
+                    rightTitleStyle={item.status_id === (1 || 2) ? styles.greyText : styles.greenText}
+                    bottomDivider
+                />)
+        }
+        return  <Text style={{alignSelf: 'center'}}>No rides for this user</Text>
+    };
+
+    _onRefresh = async () => {
+        this.setState({refreshing: true});
+        await this.props.fetchRides();
+        this.setState({refreshing: false});
+    };
 
     render() {
         let {user} = this.props;
-        console.log(user);
         return (
             <View style={styles.container}>
                 <View style={styles.header}>
@@ -28,12 +54,15 @@ export default class UserProfileView extends Component {
                     </View>
                 </View>
 
-                <View style={styles.body}>
-                    <Text>
-                        No rides for this user
-                    </Text>
-
-                </View>
+                <ScrollView
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.refreshing}
+                            onRefresh={this._onRefresh}
+                        />
+                    }>
+                    {this.renderRidesList()}
+                </ScrollView>
             </View>
         );
     }
@@ -42,6 +71,15 @@ export default class UserProfileView extends Component {
 const styles = StyleSheet.create({
     header:{
         backgroundColor: "#1faadb",
+    },
+    container: {
+        flex: 1
+    },
+    greyText: {
+        color: 'grey'
+    },
+    greenText: {
+        color: 'green'
     },
     headerContent:{
         padding:30,
