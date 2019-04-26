@@ -13,6 +13,7 @@ class MapComponent extends React.Component {
         this.springValue = new Animated.Value(0.5);
         this.props.getCurrentLocation();
         this.props.getCars();
+        this.props.checkIfLoggedIn();
     }
 
     componentDidMount() {

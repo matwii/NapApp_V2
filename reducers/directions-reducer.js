@@ -8,7 +8,7 @@
     CAR_POSITION_SET,
     AT_PICKUP,
     AFTER_PICKUP,
-    FETCH_CURRENT_ADDRESS_SUCCESS, FETCH_DESTINATION_SUCCESS,
+    FETCH_CURRENT_ADDRESS_SUCCESS, FETCH_DESTINATION_SUCCESS, FETCH_RIDES_SUCCESS,FETCH_DESTINATION_DIRECTIONS_SUCCESS, FETCH_PICKUP_DIRECTIONS_SUCCESS
 } from '../actions/action-types';
 
 const initialState = {
@@ -111,6 +111,24 @@ const directionsReducer = (state: Object = initialState, action: Object) => {
                 ...state,
                 atPickup: false,
                 afterPickup: true,
+            };
+        case FETCH_PICKUP_DIRECTIONS_SUCCESS:
+            return {
+                ...state,
+                routeToPickup: action.payload.directions,
+                timeToPickup: action.payload.duration,
+                pickupCoordinates: action.payload.coordinates,
+                pickupBounds: action.payload.bounds,
+                afterPickup: false,
+            };
+        case FETCH_DESTINATION_DIRECTIONS_SUCCESS:
+            return {
+                ...state,
+                routeToDestination: action.payload.directions,
+                timeToDestination: action.payload.duration,
+                destinationCoordinates: action.payload.coordinates,
+                destinationBounds: action.payload.bounds,
+                afterPickup: false,
             };
         default:
             return state;

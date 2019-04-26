@@ -10,6 +10,7 @@ import {
 } from './action-types';
 import {AsyncStorage} from 'react-native'
 import {fetchRides} from "./rides-actions";
+import {fetchCars} from "./map-actions";
 
 const fetchAuthRequest = () => (
     {
@@ -50,7 +51,7 @@ export const checkIfLoggedIn = () => (
             const user = await JSON.parse(retrievedItem);
             if (retrievedItem) {
                 await dispatch(fetchAuthSuccess(user, user.token));
-                dispatch(fetchRides())
+                await dispatch(fetchRides());
             }
         } catch (e) {
             console.log('an error occured');

@@ -1,6 +1,6 @@
 import { FETCH_BEST_CAR_REQUEST, FETCH_BEST_CAR_SUCCESS, FETCH_BEST_CAR_ERROR, CAR_POSITION_SET, AT_PICKUP, AFTER_PICKUP } from './action-types';
 // import API_KEY from '../lib/config';
-import { fetchBestCar, setCarBooking } from '../services/http-requests';
+import { fetchBestCar } from '../services/http-requests';
 import { fetchCars } from './map-actions';
 
 const fetchBestCarRequest = () => (

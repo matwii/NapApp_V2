@@ -42,7 +42,7 @@ const authReducer = (state: Object = initialState, action: Object) => {
                 error: false,
                 user: action.payload.user,
                 token: action.payload.token,
-                isAuthenticated: true
+                isAuthenticated: true,
             };
         }
         case SIGN_OUT: {

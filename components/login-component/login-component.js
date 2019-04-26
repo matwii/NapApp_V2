@@ -49,7 +49,6 @@ class LoginComponent extends React.Component {
             light: require('../../assets/fonts/Montserrat-Light.ttf'),
         });
         this.setState({fontLoaded: true});
-        await this.props.checkIfLoggedIn();
         this.props.navigation.setParams({
             headerRightOnPress: this.headerRightOnPress,
             title: this.props.isAuthenticated ? 'Sign Out' : 'Sign Up',

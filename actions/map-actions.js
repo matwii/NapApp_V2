@@ -13,6 +13,7 @@ import {
 } from './action-types';
 import {fetchAddressData} from '../services/http-requests';
 import {Location, Permissions} from 'expo';
+import {checkIfLoggedIn} from "./auth-actions";
 /* global navigator */
 
 export const setCurrentInitialRegion = (region: Object) => (
@@ -71,7 +72,7 @@ const fetchAddressError = () => (
 );
 
 const fetchAddress = (coordinates: Object, type: String) => (
-    (dispatch: Function) => {
+    (dispatch: Function, getState) => {
         dispatch(fetchAddressRequest());
         return fetchAddressData(coordinates)
             .then((address) => {
@@ -197,7 +198,8 @@ export const fetchCars = () => (
     async (dispatch, getState) => {
         const {socket} = getState().authentication;
         dispatch(fetchCarsRequest());
-        socket.on('initial cars', (cars) => {
+        dispatch(checkIfLoggedIn());
+        socket.on('initial cars',async (cars) => {
                 const availableCars = [];
                 for (let i = 0; i < cars.length; i += 1) {
                     const car = cars[i];
@@ -214,6 +216,7 @@ export const fetchCars = () => (
                         availableCars.push(availableCar);
                     }
                 }
+            console.log(getState().rides);
             dispatch(fetchCarsSuccess(availableCars))
             }
         )

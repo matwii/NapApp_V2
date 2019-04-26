@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import RideInfoComponent from '../../components/ride-info-component/ride-info-component';
-import { driveCar } from '../../actions/book-car-actions';
+import { updateRide } from '../../actions/rides-actions';
 import { afterPickup } from '../../actions/car-actions';
 
 // returns time in s seconds from now, format hh:mm
@@ -34,6 +34,7 @@ const mapStateToProps = (state: Object) => ({
 const mapDispatchToProps = (dispatch: Function) => ({
   continueRide: (directions, car, places) => dispatch(driveCar(directions, car, 0, 'Destination', places)),
   moveFromPickup: () => dispatch(afterPickup()),
+    updateRide: (status) => dispatch(updateRide(status))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RideInfoComponent);

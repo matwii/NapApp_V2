@@ -8,11 +8,11 @@ import ridesReducer from './rides-reducer'
 
 // Root Reducer
 const rootReducer = combineReducers({
+    authentication: authReducer,
+    rides: ridesReducer,
     map: mapReducer,
     carList: carListReducer,
     directions: directionsReducer,
-    authentication: authReducer,
-    rides: ridesReducer,
     inputAddress: inputAddressReducer,
 });
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { Platform } from 'react-native';
 import { MapView } from 'expo';
 import PropTypes from 'prop-types';
-import { Ionicons } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 
 
 const CarComponent = ({ coordinates, regNr }) => (
@@ -11,7 +11,7 @@ const CarComponent = ({ coordinates, regNr }) => (
     title={regNr}
     tracksViewChanges={false}
   >
-    <Ionicons name={Platform.OS === 'ios' ? 'ios-car' : 'md-car'} size={32} color="blue" />
+    <FontAwesome name='car' size={20} color="blue" />
   </MapView.Marker>
 );
 

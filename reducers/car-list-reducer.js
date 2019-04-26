@@ -1,14 +1,14 @@
 import {
-  FETCH_CARS_ERROR,
-  FETCH_CARS_REQUEST,
-  FETCH_CARS_SUCCESS,
-  FETCH_BEST_CAR_ERROR,
-  FETCH_BEST_CAR_REQUEST,
-  FETCH_BEST_CAR_SUCCESS,
-  CANCEL_RIDE,
-  BOOK_RIDE,
-  MOVE_CAR,
-  CAR_POSITION_SET, RIDE_ADDED,
+    FETCH_CARS_ERROR,
+    FETCH_CARS_REQUEST,
+    FETCH_CARS_SUCCESS,
+    FETCH_BEST_CAR_ERROR,
+    FETCH_BEST_CAR_REQUEST,
+    FETCH_BEST_CAR_SUCCESS,
+    CANCEL_RIDE,
+    BOOK_RIDE,
+    MOVE_CAR,
+    CAR_POSITION_SET, RIDE_ADDED, SIGN_OUT,
 } from '../actions/action-types';
 
 const initialState = {
@@ -77,6 +77,12 @@ const carListReducer = (state: Object = initialState, action: Object) => {
         ...state,
         carBooked: true,
       };
+      case SIGN_OUT: {
+        return {
+            ...state,
+            carBooked: false
+        }
+      }
     case MOVE_CAR:
       return {
         ...state,

@@ -16,7 +16,7 @@ export default class UserProfileView extends Component {
 
     renderRidesList = () => {
         const {rides} = this.props;
-        console.log('RIDES', rides)
+        console.log(rides);
         if (rides.length > 0){
             return this.props.rides.map((item, i) =>
                 <ListItem
