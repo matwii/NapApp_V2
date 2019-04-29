@@ -5,7 +5,7 @@ import {getBestCar} from '../../actions/car-actions';
 import {changeRegion} from "../../actions/map-actions";
 
 const mapStateToProps = (state: Object) => ({
-    active: state.inputAddress.active && !state.carList.carBooked,
+    active: state.inputAddress.active,
     type: state.inputAddress.type,
     pickupCoordinates: state.directions.pickupCoordinates,
     destinationCoordinates: state.directions.destinationCoordinates,

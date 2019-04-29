@@ -14,7 +14,7 @@ const mapStateToProps = (state: Object, ownProps: Object) => ({
   active: state.directions.destinationCoordinates !== null &&
     !state.inputAddress.active &&
     !state.inputAddress.chooseOnMap &&
-    !state.carList.carBooked,
+    !state.rides.bookedRide,
   destinationAddress: state.directions.destinationAddress,
   pickupAddress: state.directions.pickupAddress,
   destinationTime: formatTime(state.directions.timeToPickup + state.directions.timeToDestination),

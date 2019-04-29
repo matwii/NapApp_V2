@@ -15,9 +15,9 @@ function formatTime(seconds) {
 }
 
 const mapStateToProps = (state: Object) => ({
-  inactive: !state.carList.carBooked,
+  inactive: !state.rides.bookedRide,
   atPickup: state.directions.atPickup,
-  afterPickup: state.directions.afterPickup,
+  bookedRide: state.rides.bookedRide,
   pickupTime: formatTime(state.directions.timeToPickup),
   destinationTime: formatTime(state.directions.timeToPickup + state.directions.timeToDestination),
   directions: state.directions.routeToDestination,

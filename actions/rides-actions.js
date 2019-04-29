@@ -1,4 +1,11 @@
-import {BOOK_RIDE, FETCH_RIDES_SUCCESS, FETCH_DESTINATION_DIRECTIONS_SUCCESS, FETCH_PICKUP_DIRECTIONS_SUCCESS} from "./action-types";
+import {
+    BOOK_RIDE,
+    FETCH_RIDES_SUCCESS,
+    FETCH_DESTINATION_DIRECTIONS_SUCCESS,
+    FETCH_PICKUP_DIRECTIONS_SUCCESS,
+    CONTINUE_RIDE,
+    CANCEL_RIDE
+} from "./action-types";
 import {getRides} from "../services/http-requests";
 import Polyline from '@mapbox/polyline';
 import {API_KEY} from "../lib/config";
@@ -14,6 +21,20 @@ export const bookRide = () => (
     {
         type: BOOK_RIDE,
         payload: {},
+    }
+);
+
+const continueRide = () => (
+    {
+        type: CONTINUE_RIDE,
+        payload: {}
+    }
+);
+
+const cancelRide = () => (
+    {
+        type: CANCEL_RIDE,
+        payload: {}
     }
 );
 
@@ -90,10 +111,21 @@ export const fetchPickupDirections = (startCoordinates, viaCoordinates) => (
 );
 
 export const updateRide = (status) => (
-    (dispatch, getState) => {
+    async (dispatch, getState) => {
         const {socket} = getState().authentication;
         const {ride_id, car_id} = getState().rides.bookedRide;
-        socket.emit('updateRide', status, ride_id, car_id);
+        if (status === 2){
+            dispatch(continueRide());
+            socket.emit('updateRide', status, ride_id, car_id);
+        }
+        if (status === 3){
+            //dispatch(endRide())
+        }
+        if (status === 4){
+            dispatch(cancelRide());
+            await socket.emit('updateRide', status, ride_id, car_id);
+            dispatch(fetchRides());
+        }
     }
 );
 
@@ -102,7 +134,7 @@ export const fetchRides = () => (
         try {
             const {token} = getState().authentication.user;
             const rides = await getRides(token);
-            const bookedRide = await rides.find(ride => ride.status_id === (1 || 2));
+            const bookedRide = await rides.find(ride => ride.status_id === 1 || ride.status_id === 2);
             await dispatch(fetchRidesSuccess(rides, bookedRide));
             if (bookedRide) {
                 if (!getState().directions.destinationCoordinates){
@@ -118,10 +150,11 @@ export const fetchRides = () => (
                         latitude: bookedRide.end_latitude,
                         longitude: bookedRide.end_longitude
                     };
-                    dispatch(fetchPickupDirections(startCoordinates, viaCoordinates));
-                    dispatch(fetchDestinationDirections(viaCoordinates, endCoordinates));
+                    await dispatch(fetchPickupDirections(startCoordinates, viaCoordinates));
+                    await dispatch(fetchDestinationDirections(viaCoordinates, endCoordinates));
                 }
-                dispatch(bookRide()) //If we find a bookedride we say that a ride is booked
+                console.log('go here?')
+                dispatch(bookRide())
             }
         } catch (e) {
             console.log(e)

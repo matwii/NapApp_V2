@@ -6,7 +6,7 @@ const mapStateToProps = (state: Object) => ({
     active: state.directions.destinationCoordinates !== null &&
         !state.inputAddress.active &&
         !state.inputAddress.chooseOnMap &&
-        !state.carList.carBooked,
+        !state.rides.bookedRide,
     directions: state.directions.routeToPickup, // .concat(state.directions.routeToDestination),
     car: state.carList.reservedCar,
     user: state.authentication.user,

@@ -37,9 +37,8 @@ export const addRideToDatabase = (car: Object, places: Object) => (
             end_longitude: places.destinationCoordinates.longitude,
             end_time: Date.now() / 1000,
         };
-        await socket.emit('addRide', req);
+        socket.emit('addRide', req);
         dispatch(fetchRides());
-        dispatch(bookRide());
         /*addRide(car, places)
             .then(() => dispatch(rideAdded()))
         */

@@ -93,6 +93,11 @@ const carListReducer = (state: Object = initialState, action: Object) => {
         ...state,
         carBooked: false,
       };
+      case CANCEL_RIDE:
+        return {
+            ...state,
+            carBooked: false
+        }
     default:
       return state;
   }

@@ -23,7 +23,7 @@ export default class UserProfileView extends Component {
                     key={i}
                     title={`Order#${item.ride_id}\n${item.brand} ${item.modell}\n${moment(item.booked_time).format('LLL')}`}
                     rightTitle={`status: ${item.status_name}`}
-                    rightTitleStyle={item.status_id === (1 || 2) ? styles.greyText : styles.greenText}
+                    rightTitleStyle={item.status_id === 1 || item.status_id === 2 ? styles.greyText : styles.greenText}
                     bottomDivider
                 />)
         }
