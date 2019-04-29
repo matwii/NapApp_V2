@@ -8,7 +8,12 @@
     CAR_POSITION_SET,
     AT_PICKUP,
     AFTER_PICKUP,
-    FETCH_CURRENT_ADDRESS_SUCCESS, FETCH_DESTINATION_SUCCESS, FETCH_RIDES_SUCCESS,FETCH_DESTINATION_DIRECTIONS_SUCCESS, FETCH_PICKUP_DIRECTIONS_SUCCESS
+    FETCH_CURRENT_ADDRESS_SUCCESS,
+    FETCH_DESTINATION_SUCCESS,
+    FETCH_RIDES_SUCCESS,
+    FETCH_DESTINATION_DIRECTIONS_SUCCESS,
+    FETCH_PICKUP_DIRECTIONS_SUCCESS,
+    RIDE_FINISHED, SIGN_OUT
 } from '../actions/action-types';
 
 const initialState = {
@@ -101,17 +106,6 @@ const directionsReducer = (state: Object = initialState, action: Object) => {
                 destinationAddress: '',
                 pickupChanged: true,
             };
-        case AT_PICKUP:
-            return {
-                ...state,
-                atPickup: true,
-            };
-        case AFTER_PICKUP:
-            return {
-                ...state,
-                atPickup: false,
-                afterPickup: true,
-            };
         case FETCH_PICKUP_DIRECTIONS_SUCCESS:
             return {
                 ...state,
@@ -130,6 +124,24 @@ const directionsReducer = (state: Object = initialState, action: Object) => {
                 destinationBounds: action.payload.bounds,
                 afterPickup: false,
             };
+        case RIDE_FINISHED: {
+            return {
+                ...state,
+                routeToDestination: [],
+                timeToDestination: 0,
+                destinationCoordinates: null,
+                destinationAddress: '',
+            }
+        }
+        case SIGN_OUT: {
+            return {
+                ...state,
+                routeToDestination: [],
+                timeToDestination: 0,
+                destinationCoordinates: null,
+                destinationAddress: '',
+            }
+        }
         default:
             return state;
     }

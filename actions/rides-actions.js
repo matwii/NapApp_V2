@@ -4,7 +4,7 @@ import {
     FETCH_DESTINATION_DIRECTIONS_SUCCESS,
     FETCH_PICKUP_DIRECTIONS_SUCCESS,
     CONTINUE_RIDE,
-    CANCEL_RIDE
+    CANCEL_RIDE, RIDE_FINISHED
 } from "./action-types";
 import {getRides} from "../services/http-requests";
 import Polyline from '@mapbox/polyline';
@@ -27,6 +27,13 @@ export const bookRide = () => (
 const continueRide = () => (
     {
         type: CONTINUE_RIDE,
+        payload: {}
+    }
+);
+
+const finishRide = () => (
+    {
+        type: RIDE_FINISHED,
         payload: {}
     }
 );
@@ -85,7 +92,6 @@ const fetchDestinationDirections = (viaCoordinates, endCoordinates) => (
                 const dir = getPoints(myJson.routes[0]);
                 const duration = myJson.routes[0].legs[0].duration.value;
                 const bounds = myJson.routes[0].bounds;
-                console.log('PICKUPSUCCESS')
                 dispatch(fetchDestinationDirectionsSuccess(endCoordinates, dir, duration, bounds));
             });
     }
@@ -104,7 +110,6 @@ export const fetchPickupDirections = (startCoordinates, viaCoordinates) => (
                 const dir = getPoints(myJson.routes[0]);
                 const duration = myJson.routes[0].legs[0].duration.value;
                 const bounds = myJson.routes[0].bounds;
-                console.log('destinationsuccess')
                 dispatch(fetchPickupDirectionsSuccess(viaCoordinates, dir, duration, bounds));
             });
     }
@@ -119,7 +124,9 @@ export const updateRide = (status) => (
             socket.emit('updateRide', status, ride_id, car_id);
         }
         if (status === 3){
-            //dispatch(endRide())
+            dispatch(finishRide());
+            await socket.emit('updateRide', status, ride_id, car_id);
+            dispatch(fetchRides());
         }
         if (status === 4){
             dispatch(cancelRide());
@@ -153,7 +160,6 @@ export const fetchRides = () => (
                     await dispatch(fetchPickupDirections(startCoordinates, viaCoordinates));
                     await dispatch(fetchDestinationDirections(viaCoordinates, endCoordinates));
                 }
-                console.log('go here?')
                 dispatch(bookRide())
             }
         } catch (e) {

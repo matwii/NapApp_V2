@@ -34,7 +34,6 @@ CarListComponent.propTypes = {
             longitude: PropTypes.number,
         }),
     }),
-    carBooked: PropTypes.bool.isRequired,
 };
 
 export default CarListComponent;

@@ -11,8 +11,6 @@ const PlacesSearchComponent = ({toggleModal, address, type, pickupCoordinates, d
         if (editPickup){
             return getPickupLocation(coordinates)
         }
-        //Fetches directions from closest car to our destination
-        console.log('GETROUTE' + 'cars: ' + cars, 'pickupcoords: ' + pickupCoordinates, 'getNewCar: ' + getNewCar)
         return getCoordinates(address, type, pickupCoordinates, coordinates, details, cars) &&
             getCar(cars, pickupCoordinates, getNewCar);
     };

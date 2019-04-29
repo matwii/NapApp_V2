@@ -1,5 +1,5 @@
 import {
-    FETCH_RIDES_SUCCESS, SIGN_OUT, BOOK_RIDE, CONTINUE_RIDE, CANCEL_RIDE
+    FETCH_RIDES_SUCCESS, SIGN_OUT, BOOK_RIDE, CONTINUE_RIDE, CANCEL_RIDE, RIDE_FINISHED
 } from '../actions/action-types';
 
 const initialState = {
@@ -40,6 +40,12 @@ const ridesReducer = (state = initialState, action) => {
             return {
                 ...state,
                 bookedRide: null
+            }
+        }
+        case RIDE_FINISHED: {
+            return {
+                ...state,
+                bookedRide: null,
             }
         }
         default:

@@ -38,7 +38,7 @@ export const addRideToDatabase = (car: Object, places: Object) => (
             end_time: Date.now() / 1000,
         };
         socket.emit('addRide', req);
-        dispatch(fetchRides());
+        setTimeout(() => dispatch(fetchRides()), 500);
         /*addRide(car, places)
             .then(() => dispatch(rideAdded()))
         */

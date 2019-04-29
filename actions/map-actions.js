@@ -216,7 +216,6 @@ export const fetchCars = () => (
                         availableCars.push(availableCar);
                     }
                 }
-            console.log(getState().rides);
             dispatch(fetchCarsSuccess(availableCars))
             }
         )
