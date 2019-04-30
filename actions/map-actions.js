@@ -8,12 +8,13 @@ import {
     FETCH_ADDRESS_REQUEST,
     FETCH_ADDRESS_SUCCESS,
     FETCH_ADDRESS_ERROR,
-    FETCH_CURRENT_ADDRESS_SUCCESS,SET_INIT_REGION
+    FETCH_CURRENT_ADDRESS_SUCCESS, SET_INIT_REGION
 
 } from './action-types';
 import {fetchAddressData} from '../services/http-requests';
 import {Location, Permissions} from 'expo';
 import {checkIfLoggedIn} from "./auth-actions";
+import {fetchRides} from "./rides-actions";
 /* global navigator */
 
 export const setCurrentInitialRegion = (region: Object) => (
@@ -158,7 +159,7 @@ export const fetchCurrentLocation = (onClick) => (
                         longitudeDelta: 0.05,
                     };
                 }
-                if (onClick === true){
+                if (onClick === true) {
                     await dispatch(setRegion(region))
                 } else {
                     await dispatch(setCurrentInitialRegion(region))
@@ -187,59 +188,40 @@ const fetchCarsRequest = () => (
     }
 );
 
-const fetchCarsSuccess = (cars: Array) => (
+const fetchCarsSuccess = (cars, bookedCars) => (
     {
         type: FETCH_CARS_SUCCESS,
-        payload: {cars},
+        payload: {cars, bookedCars},
     }
 );
 
+/**
+ * Fetches cars from database. This is a socket connection so the cars in client will update according to when
+ * cars are booked from other users.
+ * @returns {Function}
+ */
 export const fetchCars = () => (
     async (dispatch, getState) => {
         const {socket} = getState().authentication;
-        dispatch(fetchCarsRequest());
-        dispatch(checkIfLoggedIn());
-        socket.on('initial cars',async (cars) => {
+        dispatch(fetchCarsRequest()); //Starts request
+        socket.on('initial cars', async (cars) => {
                 const availableCars = [];
+                const bookedCars = [];
                 for (let i = 0; i < cars.length; i += 1) {
                     const car = cars[i];
-                    // legg til if-en i php?
-                    if (car.booked === 0) {
-                        const availableCar = {
-                            id: car.car_id,
-                            coordinate: {
-                                latitude: parseFloat(car.latitude),
-                                longitude: parseFloat(car.longitude),
-                            },
-                            regNr: car.reg_number,
-                        };
-                        availableCars.push(availableCar);
-                    }
+                    const availableCar = {
+                        id: car.car_id,
+                        coordinate: {
+                            latitude: parseFloat(car.latitude),
+                            longitude: parseFloat(car.longitude),
+                        },
+                        regNr: car.reg_number,
+                        booked: car.booked
+                    };
+                    availableCars.push(availableCar);
                 }
-            dispatch(fetchCarsSuccess(availableCars))
+                dispatch(fetchCarsSuccess(availableCars, bookedCars)); //Dispatches available cars to the store.
             }
         )
-        /*dispatch({
-            event: 'initial cars',
-            handle: (cars) => {
-                const availableCars = [];
-                for (let i = 0; i < cars.length; i += 1) {
-                    const car = cars[i];
-                    // legg til if-en i php?
-                    if (car.booked === 0) {
-                        const availableCar = {
-                            id: car.car_id,
-                            coordinate: {
-                                latitude: parseFloat(car.latitude),
-                                longitude: parseFloat(car.longitude),
-                            },
-                            regNr: car.reg_number,
-                        };
-                        availableCars.push(availableCar);
-                    }
-                }
-                dispatch(fetchCarsSuccess(availableCars))
-            }
-        })*/
     }
 );

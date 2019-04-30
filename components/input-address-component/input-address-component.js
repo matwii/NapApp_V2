@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, LayoutAnimation, TouchableHighlight} from 'react-native';
+import {View, LayoutAnimation, TouchableHighlight, Platform} from 'react-native';
 import {Input, Button, Text} from 'react-native-elements';
 import PropTypes from 'prop-types';
 import styles from './styles';
@@ -37,6 +37,7 @@ class InputAddressComponent extends Component {
         if (type === 'Pickup') {
             getNewCar = false;
         }
+        Platform.OS === 'ios' && LayoutAnimation.easeInEaseOut();
         return (
             <View style={styles.container}>
                 <TouchableHighlight onPress={() => {

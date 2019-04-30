@@ -52,15 +52,17 @@ export async function fetchBestCar(available: Array, pickup: Object) {
     let bounds = null;
     const destination = `${pickup.latitude},${pickup.longitude}`;
     await Promise.all(available.map(async (car) => {
-        const start = `${car.coordinate.latitude},${car.coordinate.longitude}`;
-        const resp = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${start}&destination=${destination}&key=AIzaSyC6NcaFjA1IRMPzZiJrT4gi9eBExSWUoiI`);
-        const respJson = await resp.json();
-        const thisDuration = respJson.routes[0].legs[0].duration.value;
-        if (thisDuration < duration) {
-            duration = thisDuration;
-            bestCar = car;
-            directions = getPoints(respJson.routes[0]);
-            bounds = respJson.routes[0].bounds;
+        if (car.booked === 0){
+            const start = `${car.coordinate.latitude},${car.coordinate.longitude}`;
+            const resp = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${start}&destination=${destination}&key=AIzaSyC6NcaFjA1IRMPzZiJrT4gi9eBExSWUoiI`);
+            const respJson = await resp.json();
+            const thisDuration = respJson.routes[0].legs[0].duration.value;
+            if (thisDuration < duration) {
+                duration = thisDuration;
+                bestCar = car;
+                directions = getPoints(respJson.routes[0]);
+                bounds = respJson.routes[0].bounds;
+            }
         }
     }));
     return [bestCar, directions, duration, bounds];

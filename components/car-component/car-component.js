@@ -5,13 +5,16 @@ import PropTypes from 'prop-types';
 import { FontAwesome } from '@expo/vector-icons';
 
 
-const CarComponent = ({ coordinates, regNr }) => (
+const CarComponent = ({ coordinates, regNr, booked, bookedRide, id }) => (
   <MapView.Marker
     coordinate={coordinates}
     title={regNr}
     tracksViewChanges={false}
   >
-    <FontAwesome name='car' size={20} color="blue" />
+      {bookedRide ?
+          <FontAwesome name='car' size={20} color={bookedRide.car_id === id ? '#228B22' : booked === 0 ? 'blue' : 'red'} /> :
+          <FontAwesome name='car' size={20} color={booked === 0 ? 'blue' : 'red'} />
+      }
   </MapView.Marker>
 );
 

@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CarComponent from '../car-component/car-component';
+import {View} from 'react-native'
 
 
-const CarListComponent = ({cars, bookedCar, carBooked}) => {
+const CarListComponent = ({cars, bookedRide}) => {
+    console.log(bookedRide);
     return (
         cars.map(car => (
             <CarComponent
@@ -12,6 +14,7 @@ const CarListComponent = ({cars, bookedCar, carBooked}) => {
                 regNr={car.regNr}
                 {...car}
                 key={car.id}
+                bookedRide={bookedRide ? bookedRide : null}
             />
         ))
     );

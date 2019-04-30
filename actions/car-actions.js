@@ -61,18 +61,3 @@ export const getBestCar = (available: Array, pickup: Object, mustGetNewCar: Bool
     return null;
   }
 );
-
-export const setCarPosition = (car: Object, booked: Number) => (
-  (dispatch: Function) => {
-    if (booked === 0) {
-      setCarBooking(booked, car)
-        .then(() => dispatch(carPositionSet()))
-        .then(() => dispatch(fetchCars()));
-    } else {
-      setCarBooking(booked, car)
-        .then(() => dispatch(atPickup()));
-    }
-  }
-
-
-);

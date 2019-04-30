@@ -4,7 +4,7 @@ import {Button} from 'react-native-elements'
 import PropTypes from 'prop-types';
 import styles from './styles';
 
-const BookCarComponent = ({active, directions, car, cancelRide, bookRide, driveCar, places}) => {
+const BookCarComponent = ({active, directions, car, cancelRide, bookRide, driveCar, places, isLoading}) => {
     if (!active) {
     return null;
   }
@@ -24,6 +24,7 @@ const BookCarComponent = ({active, directions, car, cancelRide, bookRide, driveC
         titleStyle={styles.bookButtonTitleStyle}
         onPress={() => bookRide(car, places)}
         title='BOOK CAR'
+        loading={isLoading}
       >
       </Button>
     </View>

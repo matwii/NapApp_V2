@@ -10,6 +10,7 @@ const mapStateToProps = (state: Object) => ({
     directions: state.directions.routeToPickup, // .concat(state.directions.routeToDestination),
     car: state.carList.reservedCar,
     user: state.authentication.user,
+    isLoading: state.rides.isLoading,
     places: {
         startCoordinates: state.directions.startCoordinates,
         startTime: (state.directions.timeToPickup + state.directions.timeToDestination),

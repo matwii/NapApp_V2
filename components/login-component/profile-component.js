@@ -16,6 +16,7 @@ export default class UserProfileView extends Component {
 
     renderRidesList = () => {
         const {rides} = this.props;
+        rides.sort((a,b) => new Date(b.booked_time) - new Date(a.booked_time));
         if (rides.length > 0){
             return this.props.rides.map((item, i) =>
                 <ListItem

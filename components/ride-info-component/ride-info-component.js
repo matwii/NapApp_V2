@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, TouchableHighlight} from 'react-native';
+import {Text, View, TouchableHighlight, LayoutAnimation, Platform} from 'react-native';
 import {Button} from 'react-native-elements'
 import PropTypes from 'prop-types';
 import styles from './styles';
@@ -11,6 +11,7 @@ const RideInfoComponent = ({
         return null;
     }
     if (bookedRide.status_id === 2) {
+        Platform.OS === 'ios' && LayoutAnimation.easeInEaseOut();
         return (
             <View>
                 <Text style={styles.infoText}>
@@ -36,6 +37,7 @@ const RideInfoComponent = ({
         );
     }
     if (atPickup) {
+        Platform.OS === 'ios' && LayoutAnimation.easeInEaseOut();
         return (
             <View>
                 <Text style={styles.infoText}>
@@ -52,6 +54,7 @@ const RideInfoComponent = ({
             </View>
         );
     }
+    Platform.OS === 'ios' && LayoutAnimation.easeInEaseOut();
     return (
         <View>
             <Text style={styles.infoText}>

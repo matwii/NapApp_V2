@@ -4,7 +4,7 @@ import {
     FETCH_DESTINATION_DIRECTIONS_SUCCESS,
     FETCH_PICKUP_DIRECTIONS_SUCCESS,
     CONTINUE_RIDE,
-    CANCEL_RIDE, RIDE_FINISHED
+    CANCEL_RIDE, RIDE_FINISHED, FETCH_RIDES_REQUEST
 } from "./action-types";
 import {getRides} from "../services/http-requests";
 import Polyline from '@mapbox/polyline';
@@ -41,6 +41,13 @@ const finishRide = () => (
 const cancelRide = () => (
     {
         type: CANCEL_RIDE,
+        payload: {}
+    }
+);
+
+const fetchRidesRequest = () => (
+    {
+        type: FETCH_RIDES_REQUEST,
         payload: {}
     }
 );
@@ -139,6 +146,7 @@ export const updateRide = (status) => (
 export const fetchRides = () => (
     async (dispatch, getState) => {
         try {
+            dispatch(fetchRidesRequest());
             const {token} = getState().authentication.user;
             const rides = await getRides(token);
             const bookedRide = await rides.find(ride => ride.status_id === 1 || ride.status_id === 2);
